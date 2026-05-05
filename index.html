@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Frais HUBERT">
+<title>Frais HUBERT</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%232d7a2d'/%3E%3Crect x='18' y='20' width='64' height='8' rx='3' fill='white' opacity='.4'/%3E%3Crect x='18' y='34' width='64' height='5' rx='2' fill='white' opacity='.3'/%3E%3Crect x='18' y='44' width='64' height='5' rx='2' fill='white' opacity='.3'/%3E%3Ctext x='50' y='88' font-family='Arial,sans-serif' font-size='38' font-weight='900' text-anchor='middle' fill='white'%3EH%3C/text%3E%3C/svg%3E">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f4f9;color:#111827;display:flex;flex-direction:column}
+
+/* HEADER */
+.hdr{background:#2d7a2d;color:#fff;padding:14px 16px 10px;padding-top:calc(env(safe-area-inset-top) + 14px);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.hdr-left{display:flex;align-items:center;gap:10px}
+.hdr-icon{width:38px;height:38px;background:rgba(255,255,255,.18);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hdr-icon svg{width:22px;height:22px}
+.hdr-title{font-size:16px;font-weight:700}
+.hdr-sub{font-size:11px;opacity:.7;margin-top:1px}
+.hdr-pill{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);border-radius:20px;padding:5px 13px;text-align:center;flex-shrink:0}
+.hdr-pill-v{font-size:15px;font-weight:700}
+.hdr-pill-l{font-size:9px;opacity:.72;text-transform:uppercase;letter-spacing:.6px}
+
+/* SYNC BADGE */
+.sync-row{display:flex;align-items:center;gap:5px;margin-top:3px}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0}
+.sync-dot.syncing{background:#fbbf24;animation:pulse 1s infinite}
+.sync-dot.err{background:#f87171}
+.sync-txt{font-size:9px;opacity:.8}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* CONTENU */
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.page{display:none;padding:14px 14px 100px}
+.page.on{display:block}
+
+/* NAV BAS */
+.nav{background:#fff;border-top:1px solid #cdd8e8;display:flex;flex-shrink:0;padding-bottom:env(safe-area-inset-bottom)}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 4px 8px;cursor:pointer;color:#8a9bb0;font-size:10px;font-weight:500;gap:3px;border:none;background:none;font-family:inherit}
+.nav-btn.on{color:#2d7a2d}
+.nav-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* HERO */
+.hero{background:#2d7a2d;border-radius:12px;padding:18px;color:#fff;margin-bottom:12px}
+.hero-label{font-size:10px;opacity:.7;text-transform:uppercase;letter-spacing:.7px;margin-bottom:3px}
+.hero-total{font-size:34px;font-weight:700;line-height:1.05}
+.hero-sub{font-size:11px;opacity:.65;margin-top:4px}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:12px}
+.hero-item{background:rgba(255,255,255,.13);border-radius:8px;padding:9px 6px;text-align:center}
+.hero-item-v{font-size:13px;font-weight:700}
+.hero-item-l{font-size:9px;opacity:.7;margin-top:2px}
+
+/* GRILLE */
+.det-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.det-item{text-align:center;padding:10px 6px;background:#fff;border-radius:10px;border:1px solid #cdd8e8}
+.det-v{font-size:17px;font-weight:700;color:#2d7a2d}
+.det-l{font-size:10px;color:#8a9bb0;margin-top:2px}
+
+/* LABELS */
+.section-label{font-size:10px;font-weight:700;color:#8a9bb0;text-transform:uppercase;letter-spacing:.8px;margin:16px 0 7px}
+.section-label:first-child{margin-top:0}
+
+/* CARD */
+.card{background:#fff;border-radius:12px;border:1px solid #cdd8e8;margin-bottom:12px;overflow:hidden}
+.card-pad{padding:14px}
+
+/* FORM */
+.form-label{font-size:10px;font-weight:700;color:#4b5e73;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;display:block}
+.form-input{width:100%;padding:11px 13px;border:1.5px solid #cdd8e8;border-radius:9px;font-size:15px;color:#111827;background:#fff;-webkit-appearance:none;font-family:inherit}
+.form-input:focus{outline:none;border-color:#2d7a2d}
+.form-group{margin-bottom:12px}
+.form-row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.euro-wrap{position:relative}
+.euro-wrap .form-input{padding-right:28px}
+.euro-sfx{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;color:#8a9bb0;pointer-events:none}
+
+/* SEARCH */
+.search-box{width:100%;padding:12px 13px;border:1.5px solid #cdd8e8;border-radius:9px;font-size:15px;color:#111827;background:#fff;-webkit-appearance:none;font-family:inherit;display:block}
+.search-box:focus{outline:none;border-color:#2d7a2d;box-shadow:0 0 0 3px rgba(45,122,45,.10)}
+.dropdown{background:#fff;border:1.5px solid #2d7a2d;border-radius:9px;margin-top:4px;overflow:hidden;box-shadow:0 4px 16px rgba(45,122,45,.14);display:none}
+.dropdown.visible{display:block}
+.drop-item{padding:11px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;border-bottom:1px solid #e8f5e8;font-size:14px;color:#111827}
+.drop-item:last-child{border-bottom:none}
+.drop-item:active{background:#e8f5e8}
+.drop-km{font-size:12px;font-weight:700;color:#2d7a2d;background:#e8f5e8;padding:3px 9px;border-radius:10px;white-space:nowrap;flex-shrink:0;margin-left:8px}
+.drop-new{padding:11px 14px;font-size:13px;font-weight:600;color:#c87800;background:#fef3c7;cursor:pointer}
+.drop-new:active{opacity:.8}
+
+/* NOUVEAU CHANTIER */
+.new-ch-panel{background:#fef3c7;border:1.5px solid #fde68a;border-radius:9px;padding:12px 14px;margin-top:8px;display:none}
+.new-ch-panel.visible{display:block}
+.new-ch-name{font-size:13px;font-weight:700;color:#92400e;margin-bottom:8px}
+.new-ch-row{display:flex;gap:8px;align-items:center}
+.new-ch-input{flex:1;padding:10px 12px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;color:#111827;background:#fff;font-family:inherit}
+.new-ch-input:focus{outline:none;border-color:#c87800}
+.new-ch-add{padding:10px 16px;background:#c87800;border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit}
+
+/* SELECTION */
+.selected-list{margin-top:10px}
+.selected-item{display:flex;align-items:center;background:#e8f5e8;border-radius:9px;padding:10px 12px;margin-bottom:6px;gap:8px}
+.selected-item:last-child{margin-bottom:0}
+.selected-name{flex:1;font-size:13px;font-weight:600;color:#1a5e1a}
+.selected-km-input{width:80px;padding:6px 8px;border:1.5px solid #2d7a2d;border-radius:7px;font-size:13px;font-weight:700;color:#1a5e1a;background:#fff;text-align:center;font-family:inherit}
+.selected-km-input:focus{outline:none;border-color:#1a5e1a}
+.selected-km-label{font-size:11px;color:#4b5e73;white-space:nowrap}
+.selected-del{background:rgba(45,122,45,.12);border:none;color:#2d7a2d;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:inherit}
+
+/* KM TOTAL */
+.km-total-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 13px;background:#fef3c7;border-radius:9px;border:1px solid #fde68a;margin-top:10px}
+.km-total-label{font-size:12px;color:#92400e;font-weight:500}
+.km-total-value{font-size:15px;font-weight:700;color:#c87800}
+
+/* TOTAL JOURNÉE */
+.total-journee{background:#e8f5e8;border-radius:9px;padding:13px 15px;display:flex;justify-content:space-between;align-items:center;border:1px solid #a7d9a7;margin-top:4px}
+.total-journee-label{font-size:12px;color:#2d7a2d;font-weight:600}
+.total-journee-value{font-size:20px;font-weight:700;color:#1a5e1a}
+
+/* BOUTONS */
+.btn{display:block;width:100%;padding:13px;border:none;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:8px;font-family:inherit;text-align:center}
+.btn:active{opacity:.82}
+.btn-green{background:#2d7a2d;color:#fff}
+.btn-orange{background:#c87800;color:#fff}
+.btn-ghost{background:transparent;color:#2d7a2d;border:1.5px solid #cdd8e8;font-size:13px}
+.btn-red{background:#fee2e2;color:#991b1b;border:1.5px solid #fca5a5;font-size:13px}
+
+/* LISTE JOURNÉES */
+.jour-item{padding:11px 14px;border-bottom:1px solid #f0f4f9;display:flex;align-items:flex-start;gap:10px}
+.jour-item:last-child{border-bottom:none}
+.jour-main{flex:1;min-width:0}
+.jour-date{font-size:10px;font-weight:700;color:#2d7a2d;text-transform:uppercase;letter-spacing:.4px}
+.jour-desc{font-size:12.5px;color:#111827;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.jour-badges{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}
+.badge{font-size:9.5px;padding:2px 7px;border-radius:7px;font-weight:600}
+.badge-km{background:#e8f5e8;color:#1a5e1a}
+.badge-rp{background:#fef3c7;color:#92400e}
+.badge-pg{background:#f3e8ff;color:#6b21a8}
+.badge-pk{background:#dcfce7;color:#166534}
+.badge-dv{background:#fce7f3;color:#9d174d}
+.jour-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+.jour-total{font-size:15px;font-weight:700;color:#1a5e1a}
+.jour-edit-btn{background:none;border:1px solid #cdd8e8;border-radius:7px;cursor:pointer;font-size:12px;padding:5px 9px;color:#4b5e73;font-family:inherit}
+
+/* MOIS */
+.mois-scrl{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px;margin-bottom:10px;scrollbar-width:none}
+.mois-scrl::-webkit-scrollbar{display:none}
+.mois-chip{flex-shrink:0;padding:6px 14px;border:1.5px solid #cdd8e8;border-radius:20px;background:#fff;font-size:12.5px;font-weight:500;cursor:pointer;color:#4b5e73;font-family:inherit}
+.mois-chip.on{background:#2d7a2d;color:#fff;border-color:#2d7a2d}
+
+/* TABLEAU EXPORT */
+.tbl-wrap{overflow-x:auto}
+table.export-tbl{width:100%;border-collapse:collapse;font-size:11px}
+.export-tbl th{background:#2d7a2d;color:#fff;padding:6px 5px;text-align:left;font-size:9.5px;font-weight:700;text-transform:uppercase}
+.export-tbl td{padding:6px 5px;border-bottom:1px solid #cdd8e8;vertical-align:top}
+.export-tbl tfoot td{background:#e8f5e8;font-weight:700;color:#1a5e1a;border-top:2px solid #2d7a2d}
+.text-right{text-align:right}
+
+/* CUMUL */
+.cumul-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #cdd8e8}
+.cumul-row:last-child{border-bottom:none}
+.cumul-val{font-size:13px;font-weight:700;color:#1a5e1a}
+
+/* ORIENTATION */
+.orient-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.orient-btn{padding:10px;border:1.5px solid #cdd8e8;border-radius:9px;background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:#4b5e73;font-family:inherit;text-align:center}
+.orient-btn.on{background:#2d7a2d;color:#fff;border-color:#2d7a2d}
+
+/* CONFIG CHANTIERS */
+.ch-list-item{display:flex;align-items:center;padding:9px 14px;border-bottom:1px solid #cdd8e8;gap:8px}
+.ch-list-item:last-child{border-bottom:none}
+.ch-list-name{flex:1;font-size:13px;font-weight:500}
+.ch-list-km{font-size:12px;color:#2d7a2d;background:#e8f5e8;padding:3px 10px;border-radius:10px;font-weight:600;cursor:pointer;white-space:nowrap;border:none;font-family:inherit}
+
+/* ALERTES */
+.alerte{padding:10px 13px;border-radius:9px;font-size:12.5px;font-weight:500;margin-bottom:9px}
+.alerte-ok{background:#dcfce7;color:#166534;border:1px solid #86efac}
+.alerte-err{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+
+/* EMPTY */
+.empty-msg{text-align:center;padding:28px 16px;color:#8a9bb0;font-size:13px;line-height:1.5}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:flex-end}
+.modal-overlay.open{display:flex}
+.modal-box{background:#fff;border-radius:16px 16px 0 0;padding:20px 16px;padding-bottom:calc(24px + env(safe-area-inset-bottom));width:100%;max-height:92vh;overflow-y:auto}
+.modal-handle{width:36px;height:4px;background:#cdd8e8;border-radius:2px;margin:0 auto 16px}
+.modal-title{font-size:16px;font-weight:700;color:#2d7a2d;margin-bottom:16px}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+
+<div class="token-overlay" id="token-overlay">
+  <div class="token-box">
+    <div class="token-logo">H</div>
+    <div class="token-title">Frais HUBERT</div>
+    <div class="token-sub">Entrez votre Personal Access Token GitHub pour synchroniser vos données.</div>
+    <input type="password" class="token-input" id="token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" autocorrect="off" spellcheck="false">
+    <button class="token-btn" onclick="validerToken()">Accéder à l'application</button>
+    <div class="token-help">
+      GitHub → Settings → Developer settings<br>
+      → Personal access tokens → Tokens (classic)<br>
+      → Generate new token → cocher <b>repo</b>
+    </div>
+  </div>
+</div>
+
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="hdr-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <polyline points="14,2 14,8 20,8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+        <polyline points="10,9 9,9 8,9"/>
+      </svg>
+    </div>
+    <div>
+      <div class="hdr-title">HUBERT — Frais Pro</div>
+      <div class="hdr-sub" id="hdr-sub">Chargement...</div>
+      <div class="sync-row">
+        <div class="sync-dot syncing" id="sync-dot"></div>
+        <span class="sync-txt" id="sync-txt">Connexion GitHub...</span>
+      </div>
+    </div>
+  </div>
+  <div class="hdr-pill">
+    <div class="hdr-pill-v" id="hdr-total">—</div>
+    <div class="hdr-pill-l">ce mois</div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ACCUEIL -->
+<div class="page on" id="page-accueil">
+  <div class="hero">
+    <div class="hero-label" id="acc-mois">—</div>
+    <div class="hero-total" id="acc-total">0,00 €</div>
+    <div class="hero-sub" id="acc-sub">0 journée</div>
+    <div class="hero-grid">
+      <div class="hero-item"><div class="hero-item-v" id="acc-km">0 km</div><div class="hero-item-l">Kilométrage</div></div>
+      <div class="hero-item"><div class="hero-item-v" id="acc-ind">0 €</div><div class="hero-item-l">Indemnités</div></div>
+      <div class="hero-item"><div class="hero-item-v" id="acc-fr">0 €</div><div class="hero-item-l">Autres frais</div></div>
+    </div>
+  </div>
+  <div class="det-grid">
+    <div class="det-item"><div class="det-v" id="acc-rp">0 €</div><div class="det-l">Repas</div></div>
+    <div class="det-item"><div class="det-v" id="acc-pg">0 €</div><div class="det-l">Péages</div></div>
+    <div class="det-item"><div class="det-v" id="acc-pk">0 €</div><div class="det-l">Parking</div></div>
+    <div class="det-item"><div class="det-v" id="acc-dv">0 €</div><div class="det-l">Divers</div></div>
+  </div>
+  <button class="btn btn-orange" onclick="aller('saisie')">+ Saisir la journée d'aujourd'hui</button>
+  <button class="btn btn-ghost" onclick="aller('export')">Générer le tableau mensuel</button>
+</div>
+
+<!-- SAISIE -->
+<div class="page" id="page-saisie">
+  <div class="section-label">Date</div>
+  <div class="card">
+    <div class="card-pad" style="padding-bottom:12px">
+      <input type="date" class="form-input" id="inp-date" style="font-size:16px;font-weight:500">
+    </div>
+  </div>
+  <div class="section-label">Chantiers visités</div>
+  <div id="alert-ch"></div>
+  <div class="card">
+    <div class="card-pad">
+      <div class="form-group" style="margin-bottom:6px">
+        <label class="form-label">Rechercher un chantier</label>
+        <input type="search" class="search-box" id="ch-search" placeholder="Tapez un nom : CFA Lanfry, Gaïa, Jabri..." autocomplete="off" autocorrect="off" spellcheck="false" oninput="onSearch()" onfocus="onSearchFocus()">
+      </div>
+      <div class="dropdown" id="ch-dropdown"></div>
+      <div class="new-ch-panel" id="new-ch-panel">
+        <div class="new-ch-name" id="new-ch-name"></div>
+        <div class="new-ch-row">
+          <input type="number" class="new-ch-input" id="new-ch-km" placeholder="Distance aller en km" min="1">
+          <button class="new-ch-add" onclick="confirmNewCh()">Ajouter à la base</button>
+        </div>
+      </div>
+      <div id="selected-list" class="selected-list" style="display:none">
+        <label class="form-label" style="margin-top:12px">Chantiers sélectionnés — km modifiable</label>
+        <div id="selected-items"></div>
+        <div class="km-total-bar">
+          <span class="km-total-label">Total kilométrage aller-retour</span>
+          <span class="km-total-value" id="km-total">0 km</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-label">Frais du jour</div>
+  <div class="card">
+    <div class="card-pad">
+      <div class="form-row2" style="margin-bottom:11px">
+        <div><label class="form-label">Repas</label><div class="euro-wrap"><input type="number" class="form-input" id="inp-rp" placeholder="0,00" min="0" step="0.5" oninput="calcTotal()"><span class="euro-sfx">€</span></div></div>
+        <div><label class="form-label">Péages</label><div class="euro-wrap"><input type="number" class="form-input" id="inp-pg" placeholder="0,00" min="0" step="0.1" oninput="calcTotal()"><span class="euro-sfx">€</span></div></div>
+        <div><label class="form-label">Parking</label><div class="euro-wrap"><input type="number" class="form-input" id="inp-pk" placeholder="0,00" min="0" step="0.5" oninput="calcTotal()"><span class="euro-sfx">€</span></div></div>
+        <div><label class="form-label">Divers</label><div class="euro-wrap"><input type="number" class="form-input" id="inp-dv" placeholder="0,00" min="0" step="0.5" oninput="calcTotal()"><span class="euro-sfx">€</span></div></div>
+      </div>
+      <div class="form-group" style="margin-bottom:10px">
+        <label class="form-label">Notes</label>
+        <input type="text" class="form-input" id="inp-nt" placeholder="Observations optionnelles...">
+      </div>
+      <div class="total-journee">
+        <span class="total-journee-label">Total estimé de la journée</span>
+        <span class="total-journee-value" id="total-jour">0,00 €</span>
+      </div>
+    </div>
+  </div>
+  <div id="alert-saisie"></div>
+  <button class="btn btn-green" onclick="enregistrer()">✓ Enregistrer cette journée</button>
+  <button class="btn btn-red" onclick="effacer()">✕ Tout effacer</button>
+</div>
+
+<!-- JOURNÉES -->
+<div class="page" id="page-liste">
+  <div class="section-label" style="margin-top:0">Mois</div>
+  <div class="mois-scrl" id="liste-mois"></div>
+  <div class="card" id="liste-card"><div class="empty-msg">Aucune journée pour ce mois.</div></div>
+</div>
+
+<!-- EXPORT -->
+<div class="page" id="page-export">
+  <div class="section-label" style="margin-top:0">Mois</div>
+  <div class="mois-scrl" id="export-mois"></div>
+  <div id="alert-export"></div>
+  <div class="section-label">Orientation d'impression</div>
+  <div class="orient-grid">
+    <button class="orient-btn on" id="btn-portrait" onclick="setOrient('portrait')">◻ Portrait</button>
+    <button class="orient-btn" id="btn-landscape" onclick="setOrient('landscape')">▭ Paysage</button>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+    <button class="btn btn-ghost" style="margin-bottom:0;font-size:12px" onclick="exportCSV()">Télécharger CSV</button>
+    <button class="btn btn-orange" style="margin-bottom:0;font-size:12px" onclick="exportImprimer()">Imprimer / PDF</button>
+  </div>
+  <div class="section-label">Aperçu</div>
+  <div class="card" id="export-apercu"><div class="empty-msg">Sélectionnez un mois.</div></div>
+  <div class="section-label">Cumul annuel <span id="cumul-annee"></span></div>
+  <div class="card">
+    <div class="card-pad">
+      <div class="cumul-row"><span style="font-size:13px">Kilométrage</span><span class="cumul-val" id="cumul-km">—</span></div>
+      <div class="cumul-row"><span style="font-size:13px">Indemnités km</span><span class="cumul-val" id="cumul-ind">—</span></div>
+      <div class="cumul-row"><span style="font-size:13px">Frais annexes</span><span class="cumul-val" id="cumul-fr">—</span></div>
+      <div class="cumul-row"><span style="font-size:14px;font-weight:700">Total général</span><span class="cumul-val" id="cumul-tot" style="font-size:17px">—</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIG -->
+<div class="page" id="page-cfg">
+  <div class="section-label" style="margin-top:0">Profil</div>
+  <div class="card">
+    <div class="card-pad">
+      <div class="form-group"><label class="form-label">Nom</label><input type="text" class="form-input" id="cfg-nom" value="Paul HUBERT"></div>
+      <div class="form-group"><label class="form-label">Fonction</label><input type="text" class="form-input" id="cfg-fn" value="Président"></div>
+      <div class="form-group"><label class="form-label">Véhicule</label><input type="text" class="form-input" id="cfg-vh" value="Renault Austral GS-496-MB"></div>
+      <div class="form-row2" style="margin-bottom:12px">
+        <div><label class="form-label">Puissance fiscale</label><input type="number" class="form-input" id="cfg-ps" value="8"></div>
+        <div><label class="form-label">Taux €/km</label><div class="euro-wrap"><input type="number" class="form-input" id="cfg-tx" value="0.47" step="0.01"><span class="euro-sfx">€</span></div></div>
+      </div>
+      <button class="btn btn-green" onclick="saveCfg()">Enregistrer</button>
+      <div id="alert-cfg" style="margin-top:8px"></div>
+    </div>
+  </div>
+  <div class="section-label">Base chantiers (<span id="cfg-nb-ch">—</span>)</div>
+  <div class="card">
+    <div class="card-pad">
+      <div class="form-row2" style="margin-bottom:8px">
+        <div><label class="form-label">Nom</label><input type="text" class="form-input" id="new-ch-cfg-nom" placeholder="Nouveau chantier"></div>
+        <div><label class="form-label">Km aller</label><div class="euro-wrap"><input type="number" class="form-input" id="new-ch-cfg-km" placeholder="0" min="0"><span class="euro-sfx">km</span></div></div>
+      </div>
+      <button class="btn btn-ghost" style="margin-bottom:8px" onclick="ajouterChantier()">+ Ajouter ce chantier</button>
+      <div id="alert-ch-cfg"></div>
+    </div>
+  </div>
+  <div class="card" id="cfg-ch-list" style="max-height:350px;overflow-y:auto"></div>
+  <div class="section-label">Sauvegarde manuelle</div>
+  <div class="card">
+    <div class="card-pad">
+      <button class="btn btn-ghost" onclick="forceSave()">↑ Forcer la synchronisation GitHub</button>
+      <button class="btn btn-ghost" style="margin-top:4px" onclick="exportJSON()">Télécharger une copie locale (JSON)</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- fin .content -->
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nav-btn on" id="nav-accueil" onclick="aller('accueil')">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>Accueil
+  </button>
+  <button class="nav-btn" id="nav-saisie" onclick="aller('saisie')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Saisie
+  </button>
+  <button class="nav-btn" id="nav-liste" onclick="aller('liste')">
+    <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>Journées
+  </button>
+  <button class="nav-btn" id="nav-export" onclick="aller('export')">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="12" y2="12"/><line x1="15" y1="15" x2="12" y2="12"/></svg>Export
+  </button>
+  <button class="nav-btn" id="nav-cfg" onclick="aller('cfg')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Config
+  </button>
+</nav>
+
+<!-- MODAL MODIFIER JOURNÉE -->
+<div class="modal-overlay" id="modal-jour" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Modifier la journée</div>
+    <input type="hidden" id="modal-jour-id">
+    <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-input" id="modal-jour-date"></div>
+    <div class="form-group"><label class="form-label">Description</label><input type="text" class="form-input" id="modal-jour-desc"></div>
+    <div class="form-group"><label class="form-label">Kilométrage total A/R</label><div class="euro-wrap"><input type="number" class="form-input" id="modal-jour-km" min="0"><span class="euro-sfx">km</span></div></div>
+    <div class="form-row2" style="margin-bottom:12px">
+      <div><label class="form-label">Repas</label><div class="euro-wrap"><input type="number" class="form-input" id="modal-jour-rp" min="0" step="0.5"><span class="euro-sfx">€</span></div></div>
+      <div><label class="form-label">Péages</label><div class="euro-wrap"><input type="number" class="form-input" id="modal-jour-pg" min="0" step="0.1"><span class="euro-sfx">€</span></div></div>
+      <div><label class="form-label">Parking</label><div class="euro-wrap"><input type="number" class="form-input" id="modal-jour-pk" min="0" step="0.5"><span class="euro-sfx">€</span></div></div>
+      <div><label class="form-label">Divers</label><div class="euro-wrap"><input type="number" class="form-input" id="modal-jour-dv" min="0" step="0.5"><span class="euro-sfx">€</span></div></div>
+    </div>
+    <div class="form-group"><label class="form-label">Notes</label><input type="text" class="form-input" id="modal-jour-nt"></div>
+    <button class="btn btn-green" onclick="saveJour()">Enregistrer les modifications</button>
+    <button class="btn btn-red" onclick="deleteJour()">Supprimer cette journée</button>
+    <button class="btn btn-ghost" onclick="document.getElementById('modal-jour').classList.remove('open')">Annuler</button>
+  </div>
+</div>
+
+<!-- MODAL MODIFIER CHANTIER -->
+<div class="modal-overlay" id="modal-ch" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modal-ch-titre">Modifier le chantier</div>
+    <input type="hidden" id="modal-ch-idx">
+    <div class="form-group"><label class="form-label">Nom</label><input type="text" class="form-input" id="modal-ch-nom" readonly style="background:#f0f4f9"></div>
+    <div class="form-group">
+      <label class="form-label">Distance aller depuis l'entreprise</label>
+      <div class="euro-wrap"><input type="number" class="form-input" id="modal-ch-km" min="1" oninput="majAR()"><span class="euro-sfx">km</span></div>
+    </div>
+    <div style="background:#e8f5e8;border-radius:9px;padding:10px 13px;margin-bottom:12px;font-size:13px;color:#2d7a2d">
+      Aller-retour calculé : <strong id="modal-ch-ar">—</strong>
+    </div>
+    <button class="btn btn-green" onclick="saveChantier()">Enregistrer</button>
+    <button class="btn btn-red" onclick="deleteChantier()">Supprimer ce chantier</button>
+    <button class="btn btn-ghost" onclick="document.getElementById('modal-ch').classList.remove('open')">Annuler</button>
+  </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script>
+/* ===== CONFIG GITHUB ===== */
+var GH_TOKEN = localStorage.getItem('hb_gh_token') || '';
+var GH_REPO   = 'paulhubert-byte/Note-Frais-PH';
+var GH_FILE   = 'data.json';
+var GH_BRANCH = 'main';
+var GH_API    = 'https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE;
+
+/* ===== BASE CHANTIERS ===== */
+var BASE_CHANTIERS=[{n:"2888",k:8},{n:"16 bis rue de la Rose",k:9},{n:"34 champ des oiseaux",k:10},{n:"A. Vignola",k:18},{n:"Alland et Robert",k:46},{n:"AMSN",k:8},{n:"Anider",k:5},{n:"Anider Pt Quevilly",k:7},{n:"APASPH Gournay",k:52},{n:"Arques la bataille",k:62},{n:"Artefact",k:5},{n:"ASH",k:7},{n:"Ataub",k:12},{n:"Atome",k:5},{n:"Auber Rouville",k:60},{n:"Auregan",k:7},{n:"BA 105",k:57},{n:"Baguet Montmain",k:15},{n:"Barentin",k:20},{n:"Barry Callebaut",k:45},{n:"Base radar Evreux",k:59},{n:"Belbeuf auto",k:7},{n:"Bellet",k:9},{n:"Belvedere",k:6},{n:"Bihorel rue Jouvet",k:9},{n:"Boos",k:15},{n:"Bouville",k:26},{n:"C21 rue Dargent",k:12},{n:"Carabasse",k:24},{n:"Catenay",k:23},{n:"Ceref",k:32},{n:"CFA Alencon",k:167},{n:"CFA Caen",k:136},{n:"CFA Coutances",k:232},{n:"CFA Dieppe",k:67},{n:"CFA Evreux",k:58},{n:"CFA Lanfry",k:15},{n:"CFA Le Havre",k:95},{n:"CH Bois Petit",k:6},{n:"CH Durecu Lavoisier",k:7},{n:"CH Neufchatel en Bray",k:51},{n:"CH Rouvray",k:10},{n:"CHU",k:4},{n:"CHU BG",k:9},{n:"CHU Boucicault",k:14},{n:"CHU Oissel",k:17},{n:"CHU Saint Julien",k:9},{n:"Connelles",k:26},{n:"Coutelan",k:13},{n:"Creche Maromme",k:18},{n:"Creunier Erables",k:17},{n:"Dagoit Yvetot",k:39},{n:"Dame Cake",k:8},{n:"Damiette",k:4},{n:"De Pauw",k:16},{n:"Deberne",k:9},{n:"Debourges",k:15},{n:"Delecluse",k:9},{n:"Delestre Cailly",k:29},{n:"Delignere",k:14},{n:"Demouilliez",k:9},{n:"Deneuve Loisel",k:50},{n:"Diprotex",k:8},{n:"DX",k:8},{n:"Durinck Belbeuf",k:10},{n:"Eco 80",k:14},{n:"Ecotechnilin Yvetot",k:44},{n:"Elbeuf",k:24},{n:"Eoliennes Le Havre",k:112},{n:"Ericka coiff St Jacques",k:11},{n:"Eurapharma",k:23},{n:"Facouest",k:15},{n:"FFB",k:14},{n:"FFB Caen",k:131},{n:"FFB Le Havre",k:92},{n:"FFB Paris",k:125},{n:"Franquet",k:61},{n:"Franqueville St Pierre",k:8},{n:"Fresne le plan",k:23},{n:"Gaia",k:6},{n:"Gaillon",k:47},{n:"Gallienne Psp",k:22},{n:"Gendarmerie Lyons",k:37},{n:"Grare",k:12},{n:"GSE",k:28},{n:"Hermione",k:11},{n:"Hinfray",k:15},{n:"Histoire Immobilier",k:9},{n:"Housset",k:10},{n:"IME Max Briere",k:24},{n:"Ixina Tourville",k:13},{n:"Jabri",k:8},{n:"Jardins de Colbert",k:9},{n:"Jefco",k:12},{n:"Larcheveque",k:13},{n:"Le Havre en Scene",k:92},{n:"Le Treport",k:97},{n:"Lecomte",k:6},{n:"Lecomte Gaiac",k:13},{n:"Lecomte Houppeville",k:18},{n:"Leroy M Isneauville",k:11},{n:"Leroy M Tourville",k:13},{n:"Lesoymier",k:16},{n:"Levenez",k:7},{n:"Lyons la Foret",k:37},{n:"Maison Ortelli",k:9},{n:"Manoir Creuniers LH Scene",k:229},{n:"Manoir des Creuniers",k:98},{n:"Mercuzot",k:16},{n:"Merville",k:121},{n:"Midi carrelage",k:7},{n:"Min",k:8},{n:"Mitterrand",k:98},{n:"Moissoniere",k:14},{n:"Montmain",k:13},{n:"Muno",k:16},{n:"Naturea",k:11},{n:"Nikels",k:16},{n:"Nollet Breteques",k:9},{n:"Novotel",k:17},{n:"Novotel Rouen Sud",k:17},{n:"Odyssee immo",k:9},{n:"Oissel",k:14},{n:"Orival",k:20},{n:"P3 Gd Couronne",k:20},{n:"Parc Londe Msa",k:16},{n:"Pavillon Noviczky",k:18},{n:"Peninque",k:14},{n:"Perry",k:12},{n:"Pesquet",k:4},{n:"PGM",k:9},{n:"Plastic Energy",k:78},{n:"Plateforme du batiment",k:7},{n:"Pleiade Elbeuf",k:24},{n:"Point P Vaupaliere",k:15},{n:"Portes eau Louviers",k:30},{n:"Quene",k:12},{n:"Quincampoix",k:15},{n:"Radio Pt Q",k:6},{n:"Ravet Nonancourt",k:83},{n:"Reborn Bernay",k:80},{n:"Redina",k:10},{n:"Redina Gournay",k:52},{n:"Reganaz",k:12},{n:"Relais des peintres",k:94},{n:"Renaissance",k:5},{n:"Ribault",k:17},{n:"Rivan",k:4},{n:"Romilly S Andelle",k:21},{n:"SAS Rio",k:12},{n:"SCI ARO",k:10},{n:"SCI Le Port",k:10},{n:"SCI Ris",k:8},{n:"Sci Amarth",k:13},{n:"Sci Amarth Houppeville",k:14},{n:"SGRE",k:95},{n:"Saint Antoine",k:6},{n:"Saint Georges sur fontaine",k:19},{n:"Saint Martin Bocherville",k:15},{n:"Samy Ropers",k:9},{n:"Sante BTP",k:8},{n:"Sas Nounours",k:12},{n:"Solangine",k:8},{n:"Solmur",k:8},{n:"St Jacques Sur Darnetal",k:10},{n:"T2C",k:10},{n:"T2C Tamarelle",k:19},{n:"Tamarelle",k:19},{n:"Terrasse du Hamel",k:9},{n:"Terrasses Golf",k:15},{n:"Val de Reuil",k:30},{n:"Verluys",k:15},{n:"Veliocasses",k:10},{n:"Vigneux",k:25},{n:"Yerville",k:45},{n:"Yvetot",k:39},{n:"Zoelly",k:21}];
+var MOIS=['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];
+
+/* ===== ÉTAT ===== */
+var entrees=[], chantiers=[], selection=[];
+var config={nom:'Paul HUBERT',fn:'President',vh:'Renault Austral GS-496-MB',ps:8,tx:0.47};
+var moisListe='', moisExport='', pendingNom='', paysage=false;
+var ghSha=null, saveTimer=null;
+
+/* ===== SYNC GITHUB ===== */
+function setSyncStatus(state, txt) {
+  var dot = document.getElementById('sync-dot');
+  var label = document.getElementById('sync-txt');
+  dot.className = 'sync-dot' + (state==='syncing' ? ' syncing' : state==='err' ? ' err' : '');
+  label.textContent = txt;
+}
+
+async function ghGet() {
+  setSyncStatus('syncing', 'Chargement GitHub...');
+  try {
+    var r = await fetch(GH_API + '?ref=' + GH_BRANCH + '&t=' + Date.now(), {
+      headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (r.status === 404) {
+      // Fichier inexistant, on part de zéro
+      ghSha = null;
+      setSyncStatus('ok', 'Nouveau fichier — prêt');
+      return null;
+    }
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    var json = await r.json();
+    ghSha = json.sha;
+    var decoded = atob(json.content.replace(/\n/g,''));
+    var data = JSON.parse(decoded);
+    setSyncStatus('ok', 'GitHub synchronisé');
+    return data;
+  } catch(e) {
+    setSyncStatus('err', 'Erreur GitHub');
+    console.error(e);
+    return null;
+  }
+}
+
+async function ghPut() {
+  setSyncStatus('syncing', 'Sauvegarde GitHub...');
+  try {
+    var payload = { entrees:entrees, chantiers:chantiers, config:config, ts: Date.now() };
+    var content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+    var body = { message: 'Mise à jour données frais ' + new Date().toISOString().slice(0,10), content: content, branch: GH_BRANCH };
+    if (ghSha) body.sha = ghSha;
+    var r = await fetch(GH_API, {
+      method: 'PUT',
+      headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!r.ok) {
+      var err = await r.json();
+      // Conflit SHA → recharger et réessayer
+      if (r.status === 409 || (err.message && err.message.includes('sha'))) {
+        await ghGet();
+        return ghPut();
+      }
+      throw new Error('HTTP ' + r.status + ' ' + JSON.stringify(err));
+    }
+    var res = await r.json();
+    ghSha = res.content.sha;
+    setSyncStatus('ok', 'GitHub synchronisé ✓');
+    // Copie locale de secours
+    try { localStorage.setItem('hb_backup', JSON.stringify(payload)); } catch(e) {}
+  } catch(e) {
+    setSyncStatus('err', 'Erreur sauvegarde');
+    console.error(e);
+  }
+}
+
+function sauver() {
+  if (saveTimer) clearTimeout(saveTimer);
+  setSyncStatus('syncing', 'En attente...');
+  saveTimer = setTimeout(ghPut, 1500);
+}
+
+async function charger() {
+  var data = await ghGet();
+  if (data) {
+    entrees   = data.entrees   || [];
+    chantiers = (data.chantiers && data.chantiers.length) ? data.chantiers : copieBase();
+    if (data.config) { for (var k in data.config) config[k] = data.config[k]; }
+  } else {
+    // Essayer la copie locale de secours
+    try {
+      var bk = localStorage.getItem('hb_backup');
+      if (bk) {
+        var d2 = JSON.parse(bk);
+        entrees   = d2.entrees   || [];
+        chantiers = (d2.chantiers && d2.chantiers.length) ? d2.chantiers : copieBase();
+        if (d2.config) { for (var k in d2.config) config[k] = d2.config[k]; }
+        setSyncStatus('ok', 'Copie locale chargée');
+      } else {
+        chantiers = copieBase();
+      }
+    } catch(e) { chantiers = copieBase(); }
+  }
+  appliquerConfig();
+  afficherAccueil();
+}
+
+async function forceSave() {
+  await ghPut();
+  afficherAlerte('alert-cfg', 'Synchronisation effectuée.', 'ok');
+}
+
+/* ===== NAVIGATION ===== */
+function aller(id) {
+  var pages=['accueil','saisie','liste','export','cfg'];
+  for (var i=0;i<pages.length;i++) {
+    document.getElementById('page-'+pages[i]).classList.remove('on');
+    document.getElementById('nav-'+pages[i]).classList.remove('on');
+  }
+  document.getElementById('page-'+id).classList.add('on');
+  document.getElementById('nav-'+id).classList.add('on');
+  document.querySelector('.content').scrollTop=0;
+  if(id==='accueil') afficherAccueil();
+  if(id==='liste')   { buildMois('liste-mois',moisListe); afficherListe(); }
+  if(id==='export')  { buildMois('export-mois',moisExport); afficherExport(); afficherCumul(); }
+  if(id==='cfg')     { document.getElementById('cfg-nb-ch').textContent=chantiers.length; afficherListeChantiers(); }
+}
+
+/* ===== UTILITAIRES ===== */
+function copieBase(){var r=[];for(var i=0;i<BASE_CHANTIERS.length;i++)r.push({n:BASE_CHANTIERS[i].n,k:BASE_CHANTIERS[i].k});return r;}
+function cle(d){var dt=new Date(d);return dt.getFullYear()+'-'+pad(dt.getMonth()+1);}
+function lbl(k){var p=k.split('-');return MOIS[parseInt(p[1])-1]+' '+p[0];}
+function moisCour(){var n=new Date();return n.getFullYear()+'-'+pad(n.getMonth()+1);}
+function pad(n){return String(n).padStart(2,'0');}
+function getMois(){var s={};s[moisCour()]=1;for(var i=0;i<entrees.length;i++)s[cle(entrees[i].date)]=1;return Object.keys(s).sort().reverse();}
+function buildMois(elId,actif){var ms=getMois();if(!actif||ms.indexOf(actif)<0)actif=ms[0];if(elId==='liste-mois')moisListe=actif;else moisExport=actif;var html='';for(var i=0;i<ms.length;i++)html+='<button class="mois-chip'+(ms[i]===actif?' on':'')+'" onclick="selMois(\''+elId+'\',\''+ms[i]+'\')">'+lbl(ms[i])+'</button>';document.getElementById(elId).innerHTML=html;}
+function selMois(elId,m){if(elId==='liste-mois'){moisListe=m;buildMois(elId,m);afficherListe();}else{moisExport=m;buildMois(elId,m);afficherExport();}}
+function euro(n){return Number(n).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';}
+function dateF(d){var p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
+function dateLong(d){try{return new Date(d+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});}catch(e){return dateF(d);}}
+function normaliser(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+function echapper(s){return s.replace(/\\/g,'\\\\').replace(/'/g,'\\x27').replace(/"/g,'&quot;');}
+function afficherAlerte(id,msg,type,duree){var el=document.getElementById(id);if(!el)return;el.innerHTML='<div class="alerte alerte-'+type+'">'+msg+'</div>';setTimeout(function(){if(el)el.innerHTML='';},duree||4000);}
+
+/* ===== CONFIG ===== */
+function appliquerConfig(){document.getElementById('cfg-nom').value=config.nom;document.getElementById('cfg-fn').value=config.fn;document.getElementById('cfg-vh').value=config.vh;document.getElementById('cfg-ps').value=config.ps;document.getElementById('cfg-tx').value=config.tx;}
+function saveCfg(){config.nom=document.getElementById('cfg-nom').value.trim()||config.nom;config.fn=document.getElementById('cfg-fn').value.trim()||config.fn;config.vh=document.getElementById('cfg-vh').value.trim()||config.vh;config.ps=parseInt(document.getElementById('cfg-ps').value)||config.ps;config.tx=parseFloat(document.getElementById('cfg-tx').value)||config.tx;sauver();afficherAlerte('alert-cfg','Configuration enregistrée.','ok');afficherAccueil();}
+
+/* ===== ACCUEIL ===== */
+function afficherAccueil(){var mc=moisCour();var e=entrees.filter(function(x){return cle(x.date)===mc;});var km=0,rp=0,pg=0,pk=0,dv=0;for(var i=0;i<e.length;i++){km+=e[i].km;rp+=e[i].rp;pg+=e[i].pg;pk+=e[i].pk;dv+=e[i].dv;}var ind=+(km*config.tx).toFixed(2);var fr=+(rp+pg+pk+dv).toFixed(2);var tot=+(ind+fr).toFixed(2);document.getElementById('acc-mois').textContent=lbl(mc);document.getElementById('acc-total').textContent=euro(tot);document.getElementById('acc-sub').textContent=e.length+' journée'+(e.length>1?'s':'');document.getElementById('acc-km').textContent=km+' km';document.getElementById('acc-ind').textContent=euro(ind);document.getElementById('acc-fr').textContent=euro(fr);document.getElementById('acc-rp').textContent=euro(+rp.toFixed(2));document.getElementById('acc-pg').textContent=euro(+pg.toFixed(2));document.getElementById('acc-pk').textContent=euro(+pk.toFixed(2));document.getElementById('acc-dv').textContent=euro(+dv.toFixed(2));document.getElementById('hdr-total').textContent=euro(tot);document.getElementById('hdr-sub').textContent=lbl(mc);}
+
+/* ===== RECHERCHE CHANTIERS ===== */
+function onSearch(){var q=document.getElementById('ch-search').value.trim();var drop=document.getElementById('ch-dropdown');var panel=document.getElementById('new-ch-panel');if(!q){drop.classList.remove('visible');panel.classList.remove('visible');return;}var qn=normaliser(q);var res=[];for(var i=0;i<chantiers.length;i++){if(normaliser(chantiers[i].n).indexOf(qn)>=0)res.push(chantiers[i]);if(res.length>=20)break;}var html='';for(var i=0;i<res.length;i++){var ar=res[i].k*2;html+='<div class="drop-item" onmousedown="event.preventDefault()" onclick="ajouterSelection(\''+echapper(res[i].n)+'\','+ar+')"><span>'+res[i].n+'</span><span class="drop-km">'+res[i].k+' km aller — '+ar+' km A/R</span></div>';}var existe=false;for(var i=0;i<chantiers.length;i++){if(normaliser(chantiers[i].n)===qn){existe=true;break;}}if(!existe)html+='<div class="drop-new" onmousedown="event.preventDefault()" onclick="demanderDistance(\''+echapper(q)+'\')">"'+q+'" — Nouveau chantier · Appuyez pour saisir la distance</div>';drop.innerHTML=html;drop.classList.add('visible');panel.classList.remove('visible');}
+function onSearchFocus(){var q=document.getElementById('ch-search').value.trim();if(q){onSearch();return;}var drop=document.getElementById('ch-dropdown');var html='';var list=chantiers.slice(0,30);for(var i=0;i<list.length;i++){var ar=list[i].k*2;html+='<div class="drop-item" onmousedown="event.preventDefault()" onclick="ajouterSelection(\''+echapper(list[i].n)+'\','+ar+')"><span>'+list[i].n+'</span><span class="drop-km">'+list[i].k+' km aller — '+ar+' km A/R</span></div>';}drop.innerHTML=html;drop.classList.add('visible');}
+function demanderDistance(nom){pendingNom=nom;document.getElementById('new-ch-name').textContent='Nouveau chantier : '+nom;document.getElementById('new-ch-km').value='';document.getElementById('new-ch-panel').classList.add('visible');document.getElementById('ch-dropdown').classList.remove('visible');document.getElementById('ch-search').value='';setTimeout(function(){document.getElementById('new-ch-km').focus();},100);}
+function confirmNewCh(){var k=parseInt(document.getElementById('new-ch-km').value)||0;if(k<=0){afficherAlerte('alert-ch','Entrez la distance aller en km.','err');return;}chantiers.push({n:pendingNom,k:k});chantiers.sort(function(a,b){return a.n.localeCompare(b.n,'fr');});sauver();document.getElementById('new-ch-panel').classList.remove('visible');var ar=k*2;ajouterSelection(pendingNom,ar);afficherAlerte('alert-ch','"'+pendingNom+'" ajouté à la base ('+k+' km aller — '+ar+' km A/R).','ok');pendingNom='';}
+function ajouterSelection(nom,ar){document.getElementById('ch-dropdown').classList.remove('visible');document.getElementById('ch-search').value='';for(var i=0;i<selection.length;i++){if(selection[i].n===nom)return;}selection.push({n:nom,km:ar});afficherSelection();calcTotal();}
+function supprimerSelection(idx){selection.splice(idx,1);afficherSelection();calcTotal();}
+function afficherSelection(){var bloc=document.getElementById('selected-list');var cont=document.getElementById('selected-items');if(!selection.length){bloc.style.display='none';return;}bloc.style.display='block';var html='';for(var i=0;i<selection.length;i++)html+='<div class="selected-item"><span class="selected-name">'+selection[i].n+'</span><input type="number" class="selected-km-input" value="'+selection[i].km+'" min="0" onchange="majKmSelection('+i+',this.value)" oninput="majKmSelection('+i+',this.value)"><span class="selected-km-label">km A/R</span><button class="selected-del" onclick="supprimerSelection('+i+')">✕</button></div>';cont.innerHTML=html;var tot=0;for(var i=0;i<selection.length;i++)tot+=parseInt(selection[i].km)||0;document.getElementById('km-total').textContent=tot+' km';}
+function majKmSelection(idx,val){selection[idx].km=parseInt(val)||0;var tot=0;for(var i=0;i<selection.length;i++)tot+=parseInt(selection[i].km)||0;document.getElementById('km-total').textContent=tot+' km';calcTotal();}
+function calcTotal(){var km=0;for(var i=0;i<selection.length;i++)km+=parseInt(selection[i].km)||0;var rp=parseFloat(document.getElementById('inp-rp').value)||0;var pg=parseFloat(document.getElementById('inp-pg').value)||0;var pk=parseFloat(document.getElementById('inp-pk').value)||0;var dv=parseFloat(document.getElementById('inp-dv').value)||0;var tot=+(km*config.tx+rp+pg+pk+dv).toFixed(2);document.getElementById('total-jour').textContent=euro(tot);}
+function enregistrer(){var date=document.getElementById('inp-date').value;if(!date){afficherAlerte('alert-saisie','Sélectionnez une date.','err');return;}var km=0;for(var i=0;i<selection.length;i++)km+=parseInt(selection[i].km)||0;var rp=parseFloat(document.getElementById('inp-rp').value)||0;var pg=parseFloat(document.getElementById('inp-pg').value)||0;var pk=parseFloat(document.getElementById('inp-pk').value)||0;var dv=parseFloat(document.getElementById('inp-dv').value)||0;var nt=document.getElementById('inp-nt').value.trim();var desc=selection.length?selection.map(function(s){return s.n;}).join(' — '):(nt||'Déplacement');var total=+(km*config.tx+rp+pg+pk+dv).toFixed(2);var entry={id:Date.now(),date:date,desc:desc,chantiers:selection.map(function(s){return{n:s.n,km:s.km};}),km:km,rp:rp,pg:pg,pk:pk,dv:dv,nt:nt,total:total};entrees.push(entry);entrees.sort(function(a,b){return a.date.localeCompare(b.date);});sauver();afficherAlerte('alert-saisie','Journée du '+dateF(date)+' enregistrée — '+euro(total),'ok');viderFormulaire();afficherAccueil();}
+function viderFormulaire(){selection=[];afficherSelection();document.getElementById('total-jour').textContent='0,00 €';document.getElementById('inp-date').value=new Date().toISOString().slice(0,10);var ids=['inp-rp','inp-pg','inp-pk','inp-dv','inp-nt','ch-search'];for(var i=0;i<ids.length;i++)document.getElementById(ids[i]).value='';document.getElementById('ch-dropdown').classList.remove('visible');document.getElementById('new-ch-panel').classList.remove('visible');}
+function effacer(){var rempli=selection.length>0;if(!rempli){var ids=['inp-rp','inp-pg','inp-pk','inp-dv','inp-nt'];for(var i=0;i<ids.length;i++){if(document.getElementById(ids[i]).value.trim()){rempli=true;break;}}}if(rempli&&!confirm('Effacer toute la saisie en cours ?'))return;viderFormulaire();}
+
+/* ===== LISTE JOURNÉES ===== */
+function afficherListe(){var e=entrees.filter(function(x){return cle(x.date)===moisListe;}).sort(function(a,b){return a.date.localeCompare(b.date);});var card=document.getElementById('liste-card');if(!e.length){card.innerHTML='<div class="empty-msg">Aucune journée pour ce mois.</div>';return;}var html='';for(var i=0;i<e.length;i++){var x=e[i];var ind=+(x.km*config.tx).toFixed(2);html+='<div class="jour-item"><div class="jour-main"><div class="jour-date">'+dateLong(x.date)+'</div><div class="jour-desc" title="'+x.desc+'">'+x.desc+'</div><div class="jour-badges">'+(x.km>0?'<span class="badge badge-km">'+x.km+' km — '+euro(ind)+'</span>':'')+(x.rp>0?'<span class="badge badge-rp">Repas '+euro(x.rp)+'</span>':'')+(x.pg>0?'<span class="badge badge-pg">Péage '+euro(x.pg)+'</span>':'')+(x.pk>0?'<span class="badge badge-pk">Parking '+euro(x.pk)+'</span>':'')+(x.dv>0?'<span class="badge badge-dv">Divers '+euro(x.dv)+'</span>':'')+'</div></div><div class="jour-right"><div class="jour-total">'+euro(x.total)+'</div><button class="jour-edit-btn" onclick="ouvrirModifJour('+x.id+')">Modifier</button></div></div>';}card.innerHTML=html;}
+function ouvrirModifJour(id){var x=null;for(var i=0;i<entrees.length;i++){if(entrees[i].id===id){x=entrees[i];break;}}if(!x)return;document.getElementById('modal-jour-id').value=id;document.getElementById('modal-jour-date').value=x.date;document.getElementById('modal-jour-desc').value=x.desc;document.getElementById('modal-jour-km').value=x.km;document.getElementById('modal-jour-rp').value=x.rp||'';document.getElementById('modal-jour-pg').value=x.pg||'';document.getElementById('modal-jour-pk').value=x.pk||'';document.getElementById('modal-jour-dv').value=x.dv||'';document.getElementById('modal-jour-nt').value=x.nt||'';document.getElementById('modal-jour').classList.add('open');}
+function saveJour(){var id=parseInt(document.getElementById('modal-jour-id').value);var idx=-1;for(var i=0;i<entrees.length;i++){if(entrees[i].id===id){idx=i;break;}}if(idx<0)return;var km=parseFloat(document.getElementById('modal-jour-km').value)||0;var rp=parseFloat(document.getElementById('modal-jour-rp').value)||0;var pg=parseFloat(document.getElementById('modal-jour-pg').value)||0;var pk=parseFloat(document.getElementById('modal-jour-pk').value)||0;var dv=parseFloat(document.getElementById('modal-jour-dv').value)||0;var total=+(km*config.tx+rp+pg+pk+dv).toFixed(2);entrees[idx].date=document.getElementById('modal-jour-date').value;entrees[idx].desc=document.getElementById('modal-jour-desc').value;entrees[idx].km=km;entrees[idx].rp=rp;entrees[idx].pg=pg;entrees[idx].pk=pk;entrees[idx].dv=dv;entrees[idx].nt=document.getElementById('modal-jour-nt').value;entrees[idx].total=total;entrees.sort(function(a,b){return a.date.localeCompare(b.date);});sauver();document.getElementById('modal-jour').classList.remove('open');afficherListe();afficherAccueil();}
+function deleteJour(){var id=parseInt(document.getElementById('modal-jour-id').value);if(!confirm('Supprimer cette journée ?'))return;entrees=entrees.filter(function(x){return x.id!==id;});sauver();document.getElementById('modal-jour').classList.remove('open');afficherListe();afficherAccueil();}
+
+/* ===== EXPORT ===== */
+function setOrient(o){paysage=(o==='landscape');document.getElementById('btn-portrait').classList.toggle('on',!paysage);document.getElementById('btn-landscape').classList.toggle('on',paysage);}
+function afficherExport(){var e=entrees.filter(function(x){return cle(x.date)===moisExport;}).sort(function(a,b){return a.date.localeCompare(b.date);});var el=document.getElementById('export-apercu');if(!e.length){el.innerHTML='<div class="empty-msg">Aucune journée pour ce mois.</div>';return;}var km=0,rp=0,pg=0,pk=0,dv=0;for(var i=0;i<e.length;i++){km+=e[i].km;rp+=e[i].rp;pg+=e[i].pg;pk+=e[i].pk;dv+=e[i].dv;}rp=+rp.toFixed(2);pg=+pg.toFixed(2);pk=+pk.toFixed(2);dv=+dv.toFixed(2);var ind=+(km*config.tx).toFixed(2),tot=+(ind+rp+pg+pk+dv).toFixed(2);var html='<div class="tbl-wrap"><table class="export-tbl"><thead><tr><th>Date</th><th>Destinations</th><th class="text-right">km</th><th class="text-right">Ind.</th><th class="text-right">Repas</th><th class="text-right">Péage</th><th class="text-right">Park.</th><th class="text-right">Div.</th><th class="text-right">Total</th></tr></thead><tbody>';for(var i=0;i<e.length;i++){var x=e[i];var xi=+(x.km*config.tx).toFixed(2);html+='<tr><td style="white-space:nowrap">'+dateF(x.date)+'</td><td style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+x.desc+'</td><td class="text-right">'+(x.km||'')+'</td><td class="text-right">'+(xi||'')+'</td><td class="text-right">'+(x.rp||'')+'</td><td class="text-right">'+(x.pg||'')+'</td><td class="text-right">'+(x.pk||'')+'</td><td class="text-right">'+(x.dv||'')+'</td><td class="text-right" style="font-weight:700">'+x.total.toFixed(2)+'</td></tr>';}html+='</tbody><tfoot><tr><td colspan="2">TOTAL</td><td class="text-right">'+km+'</td><td class="text-right">'+ind+'</td><td class="text-right">'+(rp||'')+'</td><td class="text-right">'+(pg||'')+'</td><td class="text-right">'+(pk||'')+'</td><td class="text-right">'+(dv||'')+'</td><td class="text-right">'+tot.toFixed(2)+'</td></tr></tfoot></table></div>';el.innerHTML=html;}
+function afficherCumul(){var y=new Date().getFullYear();document.getElementById('cumul-annee').textContent=y;var e=entrees.filter(function(x){return x.date.slice(0,4)==y;});var km=0,fr=0;for(var i=0;i<e.length;i++){km+=e[i].km;fr+=e[i].rp+e[i].pg+e[i].pk+e[i].dv;}var ind=+(km*config.tx).toFixed(2);fr=+fr.toFixed(2);var tot=+(ind+fr).toFixed(2);document.getElementById('cumul-km').textContent=km+' km';document.getElementById('cumul-ind').textContent=euro(ind);document.getElementById('cumul-fr').textContent=euro(fr);document.getElementById('cumul-tot').textContent=euro(tot);}
+function exportCSV(){var e=entrees.filter(function(x){return cle(x.date)===moisExport;}).sort(function(a,b){return a.date.localeCompare(b.date);});if(!e.length){afficherAlerte('alert-export','Aucune donnée.','err');return;}var csv='Date;Description;Kilometrage;Indemnites;Repas;Peages;Parking;Divers;Total\n';var km=0,rp=0,pg=0,pk=0,dv=0;for(var i=0;i<e.length;i++){var x=e[i];var xi=+(x.km*config.tx).toFixed(2);csv+=x.date+';"'+x.desc+'";'+x.km+';'+xi+';'+x.rp+';'+x.pg+';'+x.pk+';'+x.dv+';'+x.total+'\n';km+=x.km;rp+=x.rp;pg+=x.pg;pk+=x.pk;dv+=x.dv;}rp=+rp.toFixed(2);pg=+pg.toFixed(2);pk=+pk.toFixed(2);dv=+dv.toFixed(2);var ind=+(km*config.tx).toFixed(2),tot=+(ind+rp+pg+pk+dv).toFixed(2);csv+=';TOTAL;'+km+';'+ind+';'+rp+';'+pg+';'+pk+';'+dv+';'+tot+'\n';var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);a.download='Note_frais_'+moisExport+'_HUBERT.csv';a.click();}
+function exportImprimer(){var e=entrees.filter(function(x){return cle(x.date)===moisExport;}).sort(function(a,b){return a.date.localeCompare(b.date);});if(!e.length){afficherAlerte('alert-export','Aucune donnée.','err');return;}var p=moisExport.split('-'),yr=p[0],mo=p[1],per=lbl(moisExport);var dernj=new Date(parseInt(yr),parseInt(mo),0).getDate();var km=0,rp=0,pg=0,pk=0,dv=0;for(var i=0;i<e.length;i++){km+=e[i].km;rp+=e[i].rp;pg+=e[i].pg;pk+=e[i].pk;dv+=e[i].dv;}rp=+rp.toFixed(2);pg=+pg.toFixed(2);pk=+pk.toFixed(2);dv=+dv.toFixed(2);var ind=+(km*config.tx).toFixed(2),tot=+(ind+rp+pg+pk+dv).toFixed(2);var lignes='';for(var i=0;i<e.length;i++){var x=e[i];var xi=+(x.km*config.tx).toFixed(2);lignes+='<tr><td>'+dateF(x.date)+'</td><td>'+x.desc+'</td><td class="r">'+(x.km||'')+'</td><td class="r">'+(xi||'')+'</td><td class="r">'+(x.rp||'')+'</td><td class="r">'+(x.pg||'')+'</td><td class="r">'+(x.pk||'')+'</td><td class="r">'+(x.dv||'')+'</td><td class="r b">'+x.total.toFixed(2)+'</td></tr>';}var orient=paysage?'landscape':'portrait';var html='<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Note de frais '+per+'</title><style>@page{size:'+orient+';margin:12mm;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:Arial,sans-serif;font-size:10px;color:#111;padding:8px;}.top{display:flex;justify-content:space-between;border-bottom:2.5px solid #2d7a2d;padding-bottom:10px;margin-bottom:12px;}h1{font-size:16px;color:#2d7a2d;font-weight:700;margin-bottom:4px;}.meta,.per{font-size:9px;color:#555;line-height:1.6;}.per{text-align:right;}table{width:100%;border-collapse:collapse;}th{background:#2d7a2d;color:#fff;padding:5px 4px;font-size:8.5px;text-transform:uppercase;}td{padding:5px 4px;border-bottom:1px solid #e0e8f0;font-size:9.5px;vertical-align:top;}.r{text-align:right;}.b{font-weight:700;}tfoot td{background:#e8f5e8;font-weight:700;color:#1a5e1a;border-top:2px solid #2d7a2d;}.sig{border-top:1px solid #999;width:200px;margin-top:30px;padding-top:4px;font-size:8px;color:#666;}</style></head><body><div class="top"><div><h1>Note de Frais — '+per+'</h1><div class="meta">Nom : <b>'+config.nom+'</b> &nbsp;·&nbsp; Fonction : '+config.fn+'<br>Vehicule : '+config.vh+' &nbsp;·&nbsp; '+config.ps+' CV &nbsp;·&nbsp; Taux : '+config.tx+' EUR/km</div></div><div class="per">Frais professionnels<br>01/'+mo+'/'+yr+' au '+dernj+'/'+mo+'/'+yr+'<br>Km mensuel : <b>'+km+' km</b><br>Total : <b>'+tot.toFixed(2)+' EUR</b></div></div><table><thead><tr><th>Date</th><th>Destinations</th><th class="r">km</th><th class="r">Indemn.</th><th class="r">Repas</th><th class="r">Peages</th><th class="r">Parking</th><th class="r">Divers</th><th class="r">Total</th></tr></thead><tbody>'+lignes+'</tbody><tfoot><tr><td colspan="2">TOTAL</td><td class="r">'+km+'</td><td class="r">'+ind+'</td><td class="r">'+(rp||'')+'</td><td class="r">'+(pg||'')+'</td><td class="r">'+(pk||'')+'</td><td class="r">'+(dv||'')+'</td><td class="r">'+tot.toFixed(2)+'</td></tr></tfoot></table><div class="sig">Date et signature du beneficiaire</div></body></html>';var w=window.open('','_blank');w.document.write(html);w.document.close();setTimeout(function(){w.print();},500);}
+
+/* ===== CHANTIERS CONFIG ===== */
+function afficherListeChantiers(){var el=document.getElementById('cfg-ch-list');if(!chantiers.length){el.innerHTML='<div class="empty-msg">Aucun chantier.</div>';return;}var html='';for(var i=0;i<chantiers.length;i++)html+='<div class="ch-list-item"><span class="ch-list-name">'+chantiers[i].n+'</span><button class="ch-list-km" onclick="ouvrirModifChantier('+i+')">'+chantiers[i].k+' km aller</button></div>';el.innerHTML=html;}
+function ajouterChantier(){var nom=document.getElementById('new-ch-cfg-nom').value.trim();var k=parseInt(document.getElementById('new-ch-cfg-km').value)||0;if(!nom){afficherAlerte('alert-ch-cfg','Entrez un nom.','err');return;}if(k<=0){afficherAlerte('alert-ch-cfg','Entrez la distance aller.','err');return;}for(var i=0;i<chantiers.length;i++){if(normaliser(chantiers[i].n)===normaliser(nom)){afficherAlerte('alert-ch-cfg','Ce chantier existe déjà.','err');return;}}chantiers.push({n:nom,k:k});chantiers.sort(function(a,b){return a.n.localeCompare(b.n,'fr');});sauver();document.getElementById('new-ch-cfg-nom').value='';document.getElementById('new-ch-cfg-km').value='';document.getElementById('cfg-nb-ch').textContent=chantiers.length;afficherListeChantiers();afficherAlerte('alert-ch-cfg','"'+nom+'" ajouté ('+k+' km aller = '+(k*2)+' km A/R).','ok');}
+function ouvrirModifChantier(idx){document.getElementById('modal-ch-idx').value=idx;document.getElementById('modal-ch-nom').value=chantiers[idx].n;document.getElementById('modal-ch-km').value=chantiers[idx].k;document.getElementById('modal-ch-ar').textContent=chantiers[idx].k*2+' km';document.getElementById('modal-ch-titre').textContent='Modifier : '+chantiers[idx].n;document.getElementById('modal-ch').classList.add('open');}
+function majAR(){var v=parseInt(document.getElementById('modal-ch-km').value)||0;document.getElementById('modal-ch-ar').textContent=v*2+' km';}
+function saveChantier(){var idx=parseInt(document.getElementById('modal-ch-idx').value);var k=parseInt(document.getElementById('modal-ch-km').value)||0;if(k<=0){afficherAlerte('alert-ch-cfg','Distance invalide.','err');return;}var nom=chantiers[idx].n;chantiers[idx].k=k;sauver();document.getElementById('modal-ch').classList.remove('open');document.getElementById('cfg-nb-ch').textContent=chantiers.length;afficherListeChantiers();afficherAlerte('alert-ch-cfg',nom+' : '+k+' km aller = '+k*2+' km A/R','ok');}
+function deleteChantier(){var idx=parseInt(document.getElementById('modal-ch-idx').value);var nom=chantiers[idx].n;if(!confirm('Supprimer "'+nom+'" de la base ?'))return;chantiers.splice(idx,1);sauver();document.getElementById('modal-ch').classList.remove('open');document.getElementById('cfg-nb-ch').textContent=chantiers.length;afficherListeChantiers();}
+function exportJSON(){var data={entrees:entrees,chantiers:chantiers,config:config,date:new Date().toISOString()};var a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(data,null,2));a.download='Frais_HUBERT_'+new Date().toISOString().slice(0,10)+'.json';a.click();}
+
+
+/* ===== TOKEN SETUP ===== */
+function checkToken() {
+  var t = localStorage.getItem('hb_gh_token');
+  if (t && t.startsWith('ghp_')) {
+    GH_TOKEN = t;
+    document.getElementById('token-overlay').classList.add('hidden');
+  } else {
+    document.getElementById('token-overlay').classList.remove('hidden');
+  }
+}
+function validerToken() {
+  var t = document.getElementById('token-input').value.trim();
+  if (!t || !t.startsWith('ghp_')) {
+    alert('Token invalide. Il doit commencer par ghp_');
+    return;
+  }
+  localStorage.setItem('hb_gh_token', t);
+  GH_TOKEN = t;
+  document.getElementById('token-overlay').classList.add('hidden');
+  charger();
+}
+
+/* ===== INIT ===== */
+document.getElementById('ch-search').addEventListener('blur',function(){setTimeout(function(){document.getElementById('ch-dropdown').classList.remove('visible');},250);});
+document.getElementById('inp-date').value=new Date().toISOString().slice(0,10);
+checkToken();
+if (GH_TOKEN) charger();
+</script>
+</body>
+</html>
