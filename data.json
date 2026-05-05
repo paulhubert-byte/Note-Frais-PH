@@ -25,6 +25,36 @@
       "dv": 0,
       "nt": "",
       "total": 29.14
+    },
+    {
+      "id": 1777970016841,
+      "date": "2026-05-05",
+      "desc": "Diprotex — 2888 — Appart fitness — Beriouche Naima la Vaupaliere",
+      "chantiers": [
+        {
+          "n": "Diprotex",
+          "km": 16
+        },
+        {
+          "n": "2888",
+          "km": 16
+        },
+        {
+          "n": "Appart fitness",
+          "km": 18
+        },
+        {
+          "n": "Beriouche Naima la Vaupaliere",
+          "km": 28
+        }
+      ],
+      "km": 78,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 36.66
     }
   ],
   "chantiers": [
@@ -756,5 +786,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1777969928371
+  "ts": 1777970018343
 }
