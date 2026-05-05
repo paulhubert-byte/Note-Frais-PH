@@ -1,5 +1,32 @@
 {
-  "entrees": [],
+  "entrees": [
+    {
+      "id": 1777969688433,
+      "date": "2026-05-04",
+      "desc": "2888 — Appart fitness — Dubuis sotteville sous le val",
+      "chantiers": [
+        {
+          "n": "2888",
+          "km": 16
+        },
+        {
+          "n": "Appart fitness",
+          "km": 18
+        },
+        {
+          "n": "Dubuis sotteville sous le val",
+          "km": 28
+        }
+      ],
+      "km": 62,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 29.14
+    }
+  ],
   "chantiers": [
     {
       "n": "16 bis rue de la Rose",
@@ -725,5 +752,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1777969681647
+  "ts": 1777969689935
 }
