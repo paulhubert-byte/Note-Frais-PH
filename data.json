@@ -55,6 +55,40 @@
       "dv": 0,
       "nt": "",
       "total": 36.66
+    },
+    {
+      "id": 1778075822055,
+      "date": "2026-05-06",
+      "desc": "CFA Lanfry - Appart fitness - Appart fitness - Pesquet Bd Gambetta - FFB",
+      "chantiers": [
+        {
+          "n": "CFA Lanfry",
+          "km": 30
+        },
+        {
+          "n": "Appart fitness",
+          "km": 18
+        },
+        {
+          "n": "Appart fitness",
+          "km": 18
+        },
+        {
+          "n": "Pesquet Bd Gambetta",
+          "km": 10
+        },
+        {
+          "n": "FFB",
+          "km": 28
+        }
+      ],
+      "km": 104,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 48.88
     }
   ],
   "chantiers": [
@@ -790,5 +824,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1778071732177
+  "ts": 1778075823560
 }
