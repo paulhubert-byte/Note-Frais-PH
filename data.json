@@ -3,7 +3,7 @@
     {
       "id": 1777969688433,
       "date": "2026-05-04",
-      "desc": "2888 â Appart fitness â Dubuis sotteville sous le val",
+      "desc": "2888 Ã¢ÂÂ Appart fitness Ã¢ÂÂ Dubuis sotteville sous le val",
       "chantiers": [
         {
           "n": "2888",
@@ -29,7 +29,7 @@
     {
       "id": 1777970016841,
       "date": "2026-05-05",
-      "desc": "Diprotex â 2888 â Appart fitness â Beriouche Naima la Vaupaliere",
+      "desc": "Diprotex Ã¢ÂÂ 2888 Ã¢ÂÂ Appart fitness Ã¢ÂÂ Beriouche Naima la Vaupaliere",
       "chantiers": [
         {
           "n": "Diprotex",
@@ -55,36 +55,6 @@
       "dv": 0,
       "nt": "",
       "total": 36.66
-    },
-    {
-      "id": 1778068607442,
-      "date": "2026-05-06",
-      "desc": "CFA Lanfry — Appart fitness — Pesquet Bd Gambetta — FFB",
-      "chantiers": [
-        {
-          "n": "CFA Lanfry",
-          "km": 30
-        },
-        {
-          "n": "Appart fitness",
-          "km": 18
-        },
-        {
-          "n": "Pesquet Bd Gambetta",
-          "km": 10
-        },
-        {
-          "n": "FFB",
-          "km": 28
-        }
-      ],
-      "km": 86,
-      "rp": 0,
-      "pg": 0,
-      "pk": 0,
-      "dv": 0,
-      "nt": "",
-      "total": 40.42
     }
   ],
   "chantiers": [
@@ -820,5 +790,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1778068608952
+  "ts": 1778071732177
 }
