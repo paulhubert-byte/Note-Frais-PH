@@ -192,22 +192,6 @@ table.export-tbl{width:100%;border-collapse:collapse;font-size:11px}
 <body>
 
 <!-- HEADER -->
-
-<div class="token-overlay" id="token-overlay">
-  <div class="token-box">
-    <div class="token-logo">H</div>
-    <div class="token-title">Frais HUBERT</div>
-    <div class="token-sub">Entrez votre Personal Access Token GitHub pour synchroniser vos données.</div>
-    <input type="password" class="token-input" id="token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" autocorrect="off" spellcheck="false">
-    <button class="token-btn" onclick="validerToken()">Accéder à l'application</button>
-    <div class="token-help">
-      GitHub → Settings → Developer settings<br>
-      → Personal access tokens → Tokens (classic)<br>
-      → Generate new token → cocher <b>repo</b>
-    </div>
-  </div>
-</div>
-
 <div class="hdr">
   <div class="hdr-left">
     <div class="hdr-icon">
@@ -453,7 +437,7 @@ table.export-tbl{width:100%;border-collapse:collapse;font-size:11px}
 <!-- JAVASCRIPT -->
 <script>
 /* ===== CONFIG GITHUB ===== */
-var GH_TOKEN = localStorage.getItem('hb_gh_token') || '';
+var GH_TOKEN  = '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';
 var GH_REPO   = 'paulhubert-byte/Note-Frais-PH';
 var GH_FILE   = 'data.json';
 var GH_BRANCH = 'main';
@@ -615,12 +599,12 @@ function onSearch(){var q=document.getElementById('ch-search').value.trim();var 
 function onSearchFocus(){var q=document.getElementById('ch-search').value.trim();if(q){onSearch();return;}var drop=document.getElementById('ch-dropdown');var html='';var list=chantiers.slice(0,30);for(var i=0;i<list.length;i++){var ar=list[i].k*2;html+='<div class="drop-item" onmousedown="event.preventDefault()" onclick="ajouterSelection(\''+echapper(list[i].n)+'\','+ar+')"><span>'+list[i].n+'</span><span class="drop-km">'+list[i].k+' km aller — '+ar+' km A/R</span></div>';}drop.innerHTML=html;drop.classList.add('visible');}
 function demanderDistance(nom){pendingNom=nom;document.getElementById('new-ch-name').textContent='Nouveau chantier : '+nom;document.getElementById('new-ch-km').value='';document.getElementById('new-ch-panel').classList.add('visible');document.getElementById('ch-dropdown').classList.remove('visible');document.getElementById('ch-search').value='';setTimeout(function(){document.getElementById('new-ch-km').focus();},100);}
 function confirmNewCh(){var k=parseInt(document.getElementById('new-ch-km').value)||0;if(k<=0){afficherAlerte('alert-ch','Entrez la distance aller en km.','err');return;}chantiers.push({n:pendingNom,k:k});chantiers.sort(function(a,b){return a.n.localeCompare(b.n,'fr');});sauver();document.getElementById('new-ch-panel').classList.remove('visible');var ar=k*2;ajouterSelection(pendingNom,ar);afficherAlerte('alert-ch','"'+pendingNom+'" ajouté à la base ('+k+' km aller — '+ar+' km A/R).','ok');pendingNom='';}
-function ajouterSelection(nom,ar){document.getElementById('ch-dropdown').classList.remove('visible');document.getElementById('ch-search').value='';for(var i=0;i<selection.length;i++){if(selection[i].n===nom)return;}selection.push({n:nom,km:ar});afficherSelection();calcTotal();}
+function ajouterSelection(nom,ar){document.getElementById('ch-dropdown').classList.remove('visible');document.getElementById('ch-search').value='';selection.push({n:nom,km:ar});afficherSelection();calcTotal();}
 function supprimerSelection(idx){selection.splice(idx,1);afficherSelection();calcTotal();}
 function afficherSelection(){var bloc=document.getElementById('selected-list');var cont=document.getElementById('selected-items');if(!selection.length){bloc.style.display='none';return;}bloc.style.display='block';var html='';for(var i=0;i<selection.length;i++)html+='<div class="selected-item"><span class="selected-name">'+selection[i].n+'</span><input type="number" class="selected-km-input" value="'+selection[i].km+'" min="0" onchange="majKmSelection('+i+',this.value)" oninput="majKmSelection('+i+',this.value)"><span class="selected-km-label">km A/R</span><button class="selected-del" onclick="supprimerSelection('+i+')">✕</button></div>';cont.innerHTML=html;var tot=0;for(var i=0;i<selection.length;i++)tot+=parseInt(selection[i].km)||0;document.getElementById('km-total').textContent=tot+' km';}
 function majKmSelection(idx,val){selection[idx].km=parseInt(val)||0;var tot=0;for(var i=0;i<selection.length;i++)tot+=parseInt(selection[i].km)||0;document.getElementById('km-total').textContent=tot+' km';calcTotal();}
 function calcTotal(){var km=0;for(var i=0;i<selection.length;i++)km+=parseInt(selection[i].km)||0;var rp=parseFloat(document.getElementById('inp-rp').value)||0;var pg=parseFloat(document.getElementById('inp-pg').value)||0;var pk=parseFloat(document.getElementById('inp-pk').value)||0;var dv=parseFloat(document.getElementById('inp-dv').value)||0;var tot=+(km*config.tx+rp+pg+pk+dv).toFixed(2);document.getElementById('total-jour').textContent=euro(tot);}
-function enregistrer(){var date=document.getElementById('inp-date').value;if(!date){afficherAlerte('alert-saisie','Sélectionnez une date.','err');return;}var km=0;for(var i=0;i<selection.length;i++)km+=parseInt(selection[i].km)||0;var rp=parseFloat(document.getElementById('inp-rp').value)||0;var pg=parseFloat(document.getElementById('inp-pg').value)||0;var pk=parseFloat(document.getElementById('inp-pk').value)||0;var dv=parseFloat(document.getElementById('inp-dv').value)||0;var nt=document.getElementById('inp-nt').value.trim();var desc=selection.length?selection.map(function(s){return s.n;}).join(' — '):(nt||'Déplacement');var total=+(km*config.tx+rp+pg+pk+dv).toFixed(2);var entry={id:Date.now(),date:date,desc:desc,chantiers:selection.map(function(s){return{n:s.n,km:s.km};}),km:km,rp:rp,pg:pg,pk:pk,dv:dv,nt:nt,total:total};entrees.push(entry);entrees.sort(function(a,b){return a.date.localeCompare(b.date);});sauver();afficherAlerte('alert-saisie','Journée du '+dateF(date)+' enregistrée — '+euro(total),'ok');viderFormulaire();afficherAccueil();}
+function enregistrer(){var date=document.getElementById('inp-date').value;if(!date){afficherAlerte('alert-saisie','Sélectionnez une date.','err');return;}var km=0;for(var i=0;i<selection.length;i++)km+=parseInt(selection[i].km)||0;var rp=parseFloat(document.getElementById('inp-rp').value)||0;var pg=parseFloat(document.getElementById('inp-pg').value)||0;var pk=parseFloat(document.getElementById('inp-pk').value)||0;var dv=parseFloat(document.getElementById('inp-dv').value)||0;var nt=document.getElementById('inp-nt').value.trim();var desc=selection.length?selection.map(function(s){return s.n;}).join(' - '):(nt||'Déplacement');var total=+(km*config.tx+rp+pg+pk+dv).toFixed(2);var entry={id:Date.now(),date:date,desc:desc,chantiers:selection.map(function(s){return{n:s.n,km:s.km};}),km:km,rp:rp,pg:pg,pk:pk,dv:dv,nt:nt,total:total};entrees.push(entry);entrees.sort(function(a,b){return a.date.localeCompare(b.date);});sauver();afficherAlerte('alert-saisie','Journée du '+dateF(date)+' enregistrée — '+euro(total),'ok');viderFormulaire();afficherAccueil();}
 function viderFormulaire(){selection=[];afficherSelection();document.getElementById('total-jour').textContent='0,00 €';document.getElementById('inp-date').value=new Date().toISOString().slice(0,10);var ids=['inp-rp','inp-pg','inp-pk','inp-dv','inp-nt','ch-search'];for(var i=0;i<ids.length;i++)document.getElementById(ids[i]).value='';document.getElementById('ch-dropdown').classList.remove('visible');document.getElementById('new-ch-panel').classList.remove('visible');}
 function effacer(){var rempli=selection.length>0;if(!rempli){var ids=['inp-rp','inp-pg','inp-pk','inp-dv','inp-nt'];for(var i=0;i<ids.length;i++){if(document.getElementById(ids[i]).value.trim()){rempli=true;break;}}}if(rempli&&!confirm('Effacer toute la saisie en cours ?'))return;viderFormulaire();}
 
@@ -646,34 +630,10 @@ function saveChantier(){var idx=parseInt(document.getElementById('modal-ch-idx')
 function deleteChantier(){var idx=parseInt(document.getElementById('modal-ch-idx').value);var nom=chantiers[idx].n;if(!confirm('Supprimer "'+nom+'" de la base ?'))return;chantiers.splice(idx,1);sauver();document.getElementById('modal-ch').classList.remove('open');document.getElementById('cfg-nb-ch').textContent=chantiers.length;afficherListeChantiers();}
 function exportJSON(){var data={entrees:entrees,chantiers:chantiers,config:config,date:new Date().toISOString()};var a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(data,null,2));a.download='Frais_HUBERT_'+new Date().toISOString().slice(0,10)+'.json';a.click();}
 
-
-/* ===== TOKEN SETUP ===== */
-function checkToken() {
-  var t = localStorage.getItem('hb_gh_token');
-  if (t && t.startsWith('ghp_')) {
-    GH_TOKEN = t;
-    document.getElementById('token-overlay').classList.add('hidden');
-  } else {
-    document.getElementById('token-overlay').classList.remove('hidden');
-  }
-}
-function validerToken() {
-  var t = document.getElementById('token-input').value.trim();
-  if (!t || !t.startsWith('ghp_')) {
-    alert('Token invalide. Il doit commencer par ghp_');
-    return;
-  }
-  localStorage.setItem('hb_gh_token', t);
-  GH_TOKEN = t;
-  document.getElementById('token-overlay').classList.add('hidden');
-  charger();
-}
-
 /* ===== INIT ===== */
 document.getElementById('ch-search').addEventListener('blur',function(){setTimeout(function(){document.getElementById('ch-dropdown').classList.remove('visible');},250);});
 document.getElementById('inp-date').value=new Date().toISOString().slice(0,10);
-checkToken();
-if (GH_TOKEN) charger();
+charger();
 </script>
 </body>
 </html>
