@@ -387,6 +387,15 @@ table.export-tbl{width:100%;border-collapse:collapse;font-size:11px}
     </div>
   </div>
   <div class="card" id="cfg-ch-list" style="max-height:350px;overflow-y:auto"></div>
+  <div class="section-label">Token GitHub</div>
+  <div class="card">
+    <div class="card-pad">
+      <div class="form-group"><label class="form-label">Token actuel</label><input type="password" class="form-input" id="cfg-token-display" placeholder="ghp_..." autocomplete="off"></div>
+      <button class="btn btn-orange" onclick="changerToken()">Mettre à jour le token</button>
+      <div id="alert-token" style="margin-top:8px"></div>
+    </div>
+  </div>
+
   <div class="section-label">Sauvegarde manuelle</div>
   <div class="card">
     <div class="card-pad">
@@ -593,7 +602,7 @@ function aller(id) {
   if(id==='accueil') afficherAccueil();
   if(id==='liste')   { buildMois('liste-mois',moisListe); afficherListe(); }
   if(id==='export')  { buildMois('export-mois',moisExport); afficherExport(); afficherCumul(); }
-  if(id==='cfg')     { document.getElementById('cfg-nb-ch').textContent=chantiers.length; afficherListeChantiers(); }
+  if(id==='cfg')     { document.getElementById('cfg-nb-ch').textContent=chantiers.length; afficherListeChantiers(); var ct=localStorage.getItem('hb_gh_token')||''; document.getElementById('cfg-token-display').placeholder=ct?ct.slice(0,8)+'...':'Non configuré'; }
 }
 
 /* ===== UTILITAIRES ===== */
@@ -664,10 +673,46 @@ function checkToken(){
 }
 function validerToken(){
   var t=document.getElementById('tok-input').value.trim();
-  if(!t||!t.startsWith('ghp_')){alert('Token invalide. Il doit commencer par ghp_');return;}
+  if(!t||!t.startsWith('ghp_')){afficherErreurToken('Token invalide. Il doit commencer par ghp_');return;}
+  var btn=document.querySelector('.tok-btn');
+  btn.textContent='Vérification...';
+  btn.disabled=true;
+  fetch('https://api.github.com/repos/paulhubert-byte/Note-Frais-PH',{
+    headers:{'Authorization':'token '+t,'Accept':'application/vnd.github.v3+json'}
+  }).then(function(r){
+    if(r.ok||r.status===404){
+      localStorage.setItem('hb_gh_token',t);
+      GH_TOKEN=t;
+      document.getElementById('tok-overlay').classList.add('hidden');
+      charger();
+    } else {
+      afficherErreurToken('Token refusé par GitHub (code '+r.status+'). Vérifiez et réessayez.');
+      btn.textContent='Acceder a l\'application';
+      btn.disabled=false;
+    }
+  }).catch(function(){
+    afficherErreurToken('Impossible de vérifier le token. Vérifiez votre connexion.');
+    btn.textContent='Acceder a l\'application';
+    btn.disabled=false;
+  });
+}
+function afficherErreurToken(msg){
+  var el=document.getElementById('tok-err');
+  if(!el){
+    el=document.createElement('div');
+    el.id='tok-err';
+    el.style.cssText='background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:9px;padding:10px 13px;font-size:13px;font-weight:500;margin-top:10px;text-align:center';
+    document.querySelector('.tok-btn').after(el);
+  }
+  el.textContent=msg;
+}
+function changerToken(){
+  var t=document.getElementById('cfg-token-display').value.trim();
+  if(!t||!t.startsWith('ghp_')){afficherAlerte('alert-token','Token invalide. Il doit commencer par ghp_','err');return;}
   localStorage.setItem('hb_gh_token',t);
   GH_TOKEN=t;
-  document.getElementById('tok-overlay').classList.add('hidden');
+  document.getElementById('cfg-token-display').value='';
+  afficherAlerte('alert-token','Token mis à jour. Synchronisation en cours...','ok');
   charger();
 }
 
