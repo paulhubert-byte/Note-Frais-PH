@@ -89,6 +89,32 @@
       "dv": 0,
       "nt": "",
       "total": 48.88
+    },
+    {
+      "id": 1778479880319,
+      "date": "2026-05-11",
+      "desc": "Appart fitness - Diprotex - FFB",
+      "chantiers": [
+        {
+          "n": "Appart fitness",
+          "km": 18
+        },
+        {
+          "n": "Diprotex",
+          "km": 16
+        },
+        {
+          "n": "FFB",
+          "km": 28
+        }
+      ],
+      "km": 62,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 29.14
     }
   ],
   "chantiers": [
@@ -824,5 +850,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1778075823560
+  "ts": 1778479881853
 }
