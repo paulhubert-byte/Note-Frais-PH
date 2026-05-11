@@ -91,28 +91,6 @@
       "total": 48.88
     },
     {
-      "id": 1778480063886,
-      "date": "2026-05-07",
-      "desc": "Les dents du Thuit - Appart fitness",
-      "chantiers": [
-        {
-          "n": "Les dents du Thuit",
-          "km": 64
-        },
-        {
-          "n": "Appart fitness",
-          "km": 18
-        }
-      ],
-      "km": 82,
-      "rp": 0,
-      "pg": 0,
-      "pk": 0,
-      "dv": 0,
-      "nt": "",
-      "total": 38.54
-    },
-    {
       "id": 1778479880319,
       "date": "2026-05-11",
       "desc": "Appart fitness - Diprotex - FFB",
@@ -876,5 +854,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1778480065391
+  "ts": 1778508857925
 }
