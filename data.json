@@ -141,6 +141,32 @@
       "dv": 0,
       "nt": "",
       "total": 29.14
+    },
+    {
+      "id": 1778568719021,
+      "date": "2026-05-12",
+      "desc": "Résidence Studyz Msa - Appart fitness - CFA Lanfry",
+      "chantiers": [
+        {
+          "n": "Résidence Studyz Msa",
+          "km": 32
+        },
+        {
+          "n": "Appart fitness",
+          "km": 18
+        },
+        {
+          "n": "CFA Lanfry",
+          "km": 30
+        }
+      ],
+      "km": 80,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 37.6
     }
   ],
   "chantiers": [
@@ -884,5 +910,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1778568546536
+  "ts": 1778568720529
 }
