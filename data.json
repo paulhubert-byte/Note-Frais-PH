@@ -145,10 +145,10 @@
     {
       "id": 1778568719021,
       "date": "2026-05-12",
-      "desc": "Résidence Studyz Msa - Appart fitness - CFA Lanfry",
+      "desc": "RÃ©sidence Studyz Msa - Appart fitness - CFA Lanfry",
       "chantiers": [
         {
-          "n": "Résidence Studyz Msa",
+          "n": "RÃ©sidence Studyz Msa",
           "km": 32
         },
         {
@@ -167,6 +167,32 @@
       "dv": 0,
       "nt": "",
       "total": 37.6
+    },
+    {
+      "id": 1778759140926,
+      "date": "2026-05-13",
+      "desc": "Appart fitness - CFA Lanfry - Appart fitness",
+      "chantiers": [
+        {
+          "n": "Appart fitness",
+          "km": 18
+        },
+        {
+          "n": "CFA Lanfry",
+          "km": 30
+        },
+        {
+          "n": "Appart fitness",
+          "km": 18
+        }
+      ],
+      "km": 66,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 31.02
     }
   ],
   "chantiers": [
@@ -775,7 +801,7 @@
       "k": 5
     },
     {
-      "n": "Résidence Studyz Msa",
+      "n": "RÃ©sidence Studyz Msa",
       "k": 16
     },
     {
@@ -910,5 +936,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1778568720529
+  "ts": 1778759142429
 }
