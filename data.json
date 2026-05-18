@@ -193,6 +193,28 @@
       "dv": 0,
       "nt": "",
       "total": 31.02
+    },
+    {
+      "id": 1779084202353,
+      "date": "2026-05-18",
+      "desc": "Appart fitness - Institution Jean Paul 2",
+      "chantiers": [
+        {
+          "n": "Appart fitness",
+          "km": 18
+        },
+        {
+          "n": "Institution Jean Paul 2",
+          "km": 10
+        }
+      ],
+      "km": 28,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 13.16
     }
   ],
   "chantiers": [
@@ -940,5 +962,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1779084163555
+  "ts": 1779084203854
 }
