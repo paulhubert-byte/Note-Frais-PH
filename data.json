@@ -195,36 +195,6 @@
       "total": 31.02
     },
     {
-      "id": 1779104337421,
-      "date": "2026-05-18",
-      "desc": "Appart fitness - Institution Jean Paul 2 - Diprotex - Appart fitness",
-      "chantiers": [
-        {
-          "n": "Appart fitness",
-          "km": 18
-        },
-        {
-          "n": "Institution Jean Paul 2",
-          "km": 10
-        },
-        {
-          "n": "Diprotex",
-          "km": 16
-        },
-        {
-          "n": "Appart fitness",
-          "km": 18
-        }
-      ],
-      "km": 62,
-      "rp": 0,
-      "pg": 0,
-      "pk": 0,
-      "dv": 0,
-      "nt": "",
-      "total": 29.14
-    },
-    {
       "id": 1779195108489,
       "date": "2026-05-18",
       "desc": "Appart fitness - Institution Jean Paul 2 - Appart fitness - Diprotex - Appart fitness",
@@ -1030,5 +1000,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1779195109996
+  "ts": 1779195125535
 }
