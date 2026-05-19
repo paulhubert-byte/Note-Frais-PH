@@ -225,6 +225,40 @@
       "total": 29.14
     },
     {
+      "id": 1779195108489,
+      "date": "2026-05-18",
+      "desc": "Appart fitness - Institution Jean Paul 2 - Appart fitness - Diprotex - Appart fitness",
+      "chantiers": [
+        {
+          "n": "Appart fitness",
+          "km": 18
+        },
+        {
+          "n": "Institution Jean Paul 2",
+          "km": 10
+        },
+        {
+          "n": "Appart fitness",
+          "km": 18
+        },
+        {
+          "n": "Diprotex",
+          "km": 16
+        },
+        {
+          "n": "Appart fitness",
+          "km": 18
+        }
+      ],
+      "km": 80,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 37.6
+    },
+    {
       "id": 1779194843142,
       "date": "2026-05-19",
       "desc": "CFA Lanfry - Les dents du Thuit - Ribault",
@@ -996,5 +1030,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1779194844662
+  "ts": 1779195109996
 }
