@@ -145,10 +145,10 @@
     {
       "id": 1778568719021,
       "date": "2026-05-12",
-      "desc": "RÃÂÃÂ©sidence Studyz Msa - Appart fitness - CFA Lanfry",
+      "desc": "RÃÂÃÂÃÂÃÂ©sidence Studyz Msa - Appart fitness - CFA Lanfry",
       "chantiers": [
         {
-          "n": "RÃÂÃÂÃÂÃÂ©sidence Studyz Msa",
+          "n": "RÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©sidence Studyz Msa",
           "km": 32
         },
         {
@@ -253,6 +253,36 @@
       "dv": 0,
       "nt": "",
       "total": 60.16
+    },
+    {
+      "id": 1779279478837,
+      "date": "2026-05-20",
+      "desc": "Diprotex - Ribault - Diprotex - Les dents du Thuit",
+      "chantiers": [
+        {
+          "n": "Diprotex",
+          "km": 16
+        },
+        {
+          "n": "Ribault",
+          "km": 34
+        },
+        {
+          "n": "Diprotex",
+          "km": 16
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        }
+      ],
+      "km": 130,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 61.1
     }
   ],
   "chantiers": [
@@ -833,7 +863,7 @@
       "k": 15
     },
     {
-      "n": "RÃÂÃÂÃÂÃÂ©sidence Studyz Msa",
+      "n": "RÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©sidence Studyz Msa",
       "k": 16
     },
     {
@@ -1000,5 +1030,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1779195125535
+  "ts": 1779279480349
 }
