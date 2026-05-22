@@ -305,6 +305,36 @@
       "dv": 0,
       "nt": "",
       "total": 116.56
+    },
+    {
+      "id": 1779430334452,
+      "date": "2026-05-22",
+      "desc": "Les dents du Thuit - Lecomte - Ribault - 2888",
+      "chantiers": [
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "Lecomte",
+          "km": 12
+        },
+        {
+          "n": "Ribault",
+          "km": 34
+        },
+        {
+          "n": "2888",
+          "km": 16
+        }
+      ],
+      "km": 126,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 59.22
     }
   ],
   "chantiers": [
@@ -1052,5 +1082,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1779430269499
+  "ts": 1779430335954
 }
