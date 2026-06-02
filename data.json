@@ -417,6 +417,32 @@
       "dv": 0,
       "nt": "",
       "total": 46.06
+    },
+    {
+      "id": 1780408035406,
+      "date": "2026-06-02",
+      "desc": "Gosse - Les dents du Thuit - Devillers",
+      "chantiers": [
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "Devillers",
+          "km": 10
+        }
+      ],
+      "km": 96,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 45.12
     }
   ],
   "chantiers": [
@@ -1176,5 +1202,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1780408031463
+  "ts": 1780408036909
 }
