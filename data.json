@@ -517,6 +517,32 @@
       "dv": 0,
       "nt": "",
       "total": 198.68
+    },
+    {
+      "id": 1780661722610,
+      "date": "2026-06-05",
+      "desc": "Gosse - Déchetterie Boos - Les dents du Thuit",
+      "chantiers": [
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "Déchetterie Boos",
+          "km": 30
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        }
+      ],
+      "km": 116,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 54.52
     }
   ],
   "chantiers": [
@@ -1280,5 +1306,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1780661704245
+  "ts": 1780661724111
 }
