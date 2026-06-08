@@ -543,6 +543,44 @@
       "dv": 0,
       "nt": "",
       "total": 54.52
+    },
+    {
+      "id": 1780910801686,
+      "date": "2026-06-08",
+      "desc": "PGM - 2888 - PGM - Diprotex - Les dents du Thuit - Appart fitness",
+      "chantiers": [
+        {
+          "n": "PGM",
+          "km": 18
+        },
+        {
+          "n": "2888",
+          "km": 16
+        },
+        {
+          "n": "PGM",
+          "km": 18
+        },
+        {
+          "n": "Diprotex",
+          "km": 16
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "Appart fitness",
+          "km": 18
+        }
+      ],
+      "km": 150,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 70.5
     }
   ],
   "chantiers": [
@@ -1306,5 +1344,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1780910512158
+  "ts": 1780910803193
 }
