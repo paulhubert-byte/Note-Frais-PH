@@ -521,7 +521,7 @@
     {
       "id": 1780661722610,
       "date": "2026-06-05",
-      "desc": "Gosse - DÃÂ©chetterie Boos - Les dents du Thuit",
+      "desc": "Gosse - Déchetterie Boos - Les dents du Thuit",
       "chantiers": [
         {
           "n": "Gosse",
@@ -1306,5 +1306,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1780910477068
+  "ts": 1780910512158
 }
