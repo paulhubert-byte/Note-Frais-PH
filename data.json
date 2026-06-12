@@ -639,6 +639,28 @@
       "total": 176.72
     },
     {
+      "id": 1781247355435,
+      "date": "2026-06-11",
+      "desc": "Le Havre en Scene - CFA Lanfry",
+      "chantiers": [
+        {
+          "n": "Le Havre en Scene",
+          "km": 184
+        },
+        {
+          "n": "CFA Lanfry",
+          "km": 30
+        }
+      ],
+      "km": 214,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 100.58
+    },
+    {
       "id": 1781247090733,
       "date": "2026-06-12",
       "desc": "Eurapharma - Les dents du Thuit - Gosse - FFB",
@@ -1430,5 +1452,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1781247214100
+  "ts": 1781247356936
 }
