@@ -609,6 +609,36 @@
       "total": 45.12
     },
     {
+      "id": 1781247212598,
+      "date": "2026-06-10",
+      "desc": "2888 - Eurapharma - Les dents du Thuit - FFB Paris",
+      "chantiers": [
+        {
+          "n": "2888",
+          "km": 16
+        },
+        {
+          "n": "Eurapharma",
+          "km": 46
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "FFB Paris",
+          "km": 250
+        }
+      ],
+      "km": 376,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 176.72
+    },
+    {
       "id": 1781247090733,
       "date": "2026-06-12",
       "desc": "Eurapharma - Les dents du Thuit - Gosse - FFB",
@@ -1400,5 +1430,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1781247092244
+  "ts": 1781247214100
 }
