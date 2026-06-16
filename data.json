@@ -723,6 +723,36 @@
       "dv": 0,
       "nt": "",
       "total": 172.42
+    },
+    {
+      "id": 1781590258192,
+      "date": "2026-06-16",
+      "desc": "C21 villa Longchamps - Gosse - Dubuis Amfreville - Appart fitness",
+      "chantiers": [
+        {
+          "n": "C21 villa Longchamps",
+          "km": 18
+        },
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "Dubuis Amfreville",
+          "km": 6
+        },
+        {
+          "n": "Appart fitness",
+          "km": 18
+        }
+      ],
+      "km": 64,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 30.08
     }
   ],
   "chantiers": [
@@ -1494,5 +1524,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1781590227507
+  "ts": 1781590259698
 }
