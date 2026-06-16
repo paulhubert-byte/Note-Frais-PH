@@ -695,6 +695,32 @@
       "total": 151.34
     },
     {
+      "id": 1781589953319,
+      "date": "2026-06-16",
+      "desc": "Dubuis Amfreville - C21 villa Longchamps - Gosse",
+      "chantiers": [
+        {
+          "n": "Dubuis Amfreville",
+          "km": 6
+        },
+        {
+          "n": "C21 villa Longchamps",
+          "km": 18
+        },
+        {
+          "n": "Gosse",
+          "km": 22
+        }
+      ],
+      "km": 46,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 21.62
+    },
+    {
       "id": 1781589670121,
       "date": "2026-06-20",
       "desc": "Eurapharma - 2888 - Les dents du Thuit - FFB - Gosse",
@@ -1498,5 +1524,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1781589932535
+  "ts": 1781589954832
 }
