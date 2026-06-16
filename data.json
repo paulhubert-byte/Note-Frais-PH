@@ -685,40 +685,6 @@
       "dv": 0,
       "nt": "",
       "total": 21.62
-    },
-    {
-      "id": 1781589670121,
-      "date": "2026-06-20",
-      "desc": "Eurapharma - 2888 - Les dents du Thuit - FFB - Gosse",
-      "chantiers": [
-        {
-          "n": "Eurapharma",
-          "km": 46
-        },
-        {
-          "n": "2888",
-          "km": 16
-        },
-        {
-          "n": "Les dents du Thuit",
-          "km": 64
-        },
-        {
-          "n": "FFB",
-          "km": 28
-        },
-        {
-          "n": "Gosse",
-          "km": 22
-        }
-      ],
-      "km": 176,
-      "rp": 0,
-      "pg": 0,
-      "pk": 0,
-      "dv": 0,
-      "nt": "",
-      "total": 82.72
     }
   ],
   "chantiers": [
@@ -1490,5 +1456,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1781590003254
+  "ts": 1781590021124
 }
