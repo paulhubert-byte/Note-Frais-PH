@@ -909,6 +909,10 @@
       "k": 17
     },
     {
+      "n": "DÃ©chetterie Boos",
+      "k": 15
+    },
+    {
       "n": "Dagoit Yvetot",
       "k": 39
     },
@@ -930,10 +934,6 @@
     },
     {
       "n": "Debourges",
-      "k": 15
-    },
-    {
-      "n": "DÃ©chetterie Boos",
       "k": 15
     },
     {
@@ -963,6 +963,10 @@
     {
       "n": "Diprotex",
       "k": 8
+    },
+    {
+      "n": "Dubuis Amfreville",
+      "k": 3
     },
     {
       "n": "Dubuis sotteville sous le val",
@@ -1456,5 +1460,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1781589671628
+  "ts": 1781589702792
 }
