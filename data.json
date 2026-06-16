@@ -661,40 +661,6 @@
       "total": 130.66
     },
     {
-      "id": 1781589742123,
-      "date": "2026-06-16",
-      "desc": "Dubuis Amfreville - Gosse - Le Havre en Scene - Les dents du Thuit - Eurapharma",
-      "chantiers": [
-        {
-          "n": "Dubuis Amfreville",
-          "km": 6
-        },
-        {
-          "n": "Gosse",
-          "km": 22
-        },
-        {
-          "n": "Le Havre en Scene",
-          "km": 184
-        },
-        {
-          "n": "Les dents du Thuit",
-          "km": 64
-        },
-        {
-          "n": "Eurapharma",
-          "km": 46
-        }
-      ],
-      "km": 322,
-      "rp": 0,
-      "pg": 0,
-      "pk": 0,
-      "dv": 0,
-      "nt": "",
-      "total": 151.34
-    },
-    {
       "id": 1781589953319,
       "date": "2026-06-16",
       "desc": "Dubuis Amfreville - C21 villa Longchamps - Gosse",
@@ -1524,5 +1490,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1781589954832
+  "ts": 1781590003254
 }
