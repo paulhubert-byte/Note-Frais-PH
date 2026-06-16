@@ -545,6 +545,36 @@
       "total": 54.52
     },
     {
+      "id": 1781589458746,
+      "date": "2026-06-08",
+      "desc": "DX - Les dents du Thuit - 2888 - Appart fitness",
+      "chantiers": [
+        {
+          "n": "DX",
+          "km": 16
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "2888",
+          "km": 16
+        },
+        {
+          "n": "Appart fitness",
+          "km": 18
+        }
+      ],
+      "km": 114,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 53.58
+    },
+    {
       "id": 1781589397248,
       "date": "2026-06-09",
       "desc": "2888 - PGM - Les dents du Thuit - PGM",
@@ -1336,5 +1366,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1781589415824
+  "ts": 1781589460248
 }
