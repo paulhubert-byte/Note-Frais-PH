@@ -633,6 +633,32 @@
       "dv": 0,
       "nt": "",
       "total": 176.72
+    },
+    {
+      "id": 1781589606374,
+      "date": "2026-06-11",
+      "desc": "Le Havre en Scene - CFA Lanfry - Les dents du Thuit",
+      "chantiers": [
+        {
+          "n": "Le Havre en Scene",
+          "km": 184
+        },
+        {
+          "n": "CFA Lanfry",
+          "km": 30
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        }
+      ],
+      "km": 278,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 130.66
     }
   ],
   "chantiers": [
@@ -1396,5 +1422,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1781589548109
+  "ts": 1781589607885
 }
