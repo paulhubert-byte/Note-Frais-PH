@@ -783,6 +783,32 @@
       "dv": 0,
       "nt": "",
       "total": 85.54
+    },
+    {
+      "id": 1781769948281,
+      "date": "2026-06-18",
+      "desc": "Les dents du Thuit - Appart fitness - Manoir des Creuniers",
+      "chantiers": [
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "Appart fitness",
+          "km": 18
+        },
+        {
+          "n": "Manoir des Creuniers",
+          "km": 196
+        }
+      ],
+      "km": 278,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 130.66
     }
   ],
   "chantiers": [
@@ -1562,5 +1588,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1781769641721
+  "ts": 1781769949789
 }
