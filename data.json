@@ -839,6 +839,40 @@
       "dv": 0,
       "nt": "",
       "total": 47
+    },
+    {
+      "id": 1782192527540,
+      "date": "2026-06-22",
+      "desc": "Gosse - Dubuis Amfreville - Bouron - 2888 - Gosse",
+      "chantiers": [
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "Dubuis Amfreville",
+          "km": 6
+        },
+        {
+          "n": "Bouron",
+          "km": 8
+        },
+        {
+          "n": "2888",
+          "km": 16
+        },
+        {
+          "n": "Gosse",
+          "km": 22
+        }
+      ],
+      "km": 74,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 34.78
     }
   ],
   "chantiers": [
@@ -1622,5 +1656,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1782192499936
+  "ts": 1782192529041
 }
