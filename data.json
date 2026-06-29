@@ -927,32 +927,6 @@
       "total": 70.5
     },
     {
-      "id": 1782456225671,
-      "date": "2026-06-26",
-      "desc": "Les dents du Thuit - Gosse - Dubuis Amfreville",
-      "chantiers": [
-        {
-          "n": "Les dents du Thuit",
-          "km": 64
-        },
-        {
-          "n": "Gosse",
-          "km": 22
-        },
-        {
-          "n": "Dubuis Amfreville",
-          "km": 6
-        }
-      ],
-      "km": 92,
-      "rp": 0,
-      "pg": 0,
-      "pk": 0,
-      "dv": 0,
-      "nt": "",
-      "total": 43.24
-    },
-    {
       "id": 1782718700546,
       "date": "2026-06-29",
       "desc": "Gosse - Les dents du Thuit - Dubuis Amfreville - CFA Lanfry",
@@ -1790,5 +1764,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1782718798950
+  "ts": 1782718834737
 }
