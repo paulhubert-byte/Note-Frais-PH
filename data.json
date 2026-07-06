@@ -1041,6 +1041,40 @@
       "dv": 0,
       "nt": "",
       "total": 47.94
+    },
+    {
+      "id": 1783350393772,
+      "date": "2026-07-02",
+      "desc": "Gosse - Les dents du Thuit - Dubuis Amfreville - Le Havre en Scene - FFB",
+      "chantiers": [
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "Dubuis Amfreville",
+          "km": 6
+        },
+        {
+          "n": "Le Havre en Scene",
+          "km": 184
+        },
+        {
+          "n": "FFB",
+          "km": 28
+        }
+      ],
+      "km": 304,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 142.88
     }
   ],
   "chantiers": [
@@ -1828,5 +1862,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1783350335090
+  "ts": 1783350395274
 }
