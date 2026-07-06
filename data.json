@@ -1014,7 +1014,7 @@
     },
     {
       "id": 1783350286022,
-      "date": "2026-07-06",
+      "date": "2026-07-01",
       "desc": "Foncia - Les dents du Thuit - Gosse - Dubuis Amfreville",
       "chantiers": [
         {
@@ -1828,5 +1828,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1783350287526
+  "ts": 1783350335090
 }
