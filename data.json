@@ -977,6 +977,36 @@
       "dv": 0,
       "nt": "",
       "total": 43.24
+    },
+    {
+      "id": 1783488731631,
+      "date": "2026-07-08",
+      "desc": "Foncia - 16 bis rue de la Rose - Les dents du Thuit - Gosse",
+      "chantiers": [
+        {
+          "n": "Foncia",
+          "km": 10
+        },
+        {
+          "n": "16 bis rue de la Rose",
+          "km": 18
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "Gosse",
+          "km": 22
+        }
+      ],
+      "km": 114,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 53.58
     }
   ],
   "chantiers": [
@@ -1764,5 +1794,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1783488652029
+  "ts": 1783488733133
 }
