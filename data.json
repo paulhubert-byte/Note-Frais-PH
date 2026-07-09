@@ -1043,6 +1043,44 @@
       "total": 43.24
     },
     {
+      "id": 1783600086018,
+      "date": "2026-07-07",
+      "desc": "AMSN - Gosse - Les dents du Thuit - Dubuis Amfreville - Poste - Poste mesnil esnard",
+      "chantiers": [
+        {
+          "n": "AMSN",
+          "km": 16
+        },
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "Dubuis Amfreville",
+          "km": 6
+        },
+        {
+          "n": "Poste",
+          "km": 6
+        },
+        {
+          "n": "Poste mesnil esnard",
+          "km": 18
+        }
+      ],
+      "km": 132,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 62.04
+    },
+    {
       "id": 1783488731631,
       "date": "2026-07-08",
       "desc": "Foncia - 16 bis rue de la Rose x2 - Les dents du Thuit - Gosse",
@@ -1892,5 +1930,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1783600061783
+  "ts": 1783600087520
 }
