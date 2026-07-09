@@ -1007,6 +1007,32 @@
       "dv": 0,
       "nt": "",
       "total": 58.28
+    },
+    {
+      "id": 1783599644180,
+      "date": "2026-07-09",
+      "desc": "Gosse - Les dents du Thuit - Le Havre en Scene",
+      "chantiers": [
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "Le Havre en Scene",
+          "km": 184
+        }
+      ],
+      "km": 270,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 126.9
     }
   ],
   "chantiers": [
@@ -1794,5 +1820,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1783599579913
+  "ts": 1783599645683
 }
