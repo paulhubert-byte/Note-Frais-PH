@@ -1017,6 +1017,32 @@
       "total": 142.88
     },
     {
+      "id": 1783599806856,
+      "date": "2026-07-03",
+      "desc": "Dubuis Amfreville - Les dents du Thuit - Gosse",
+      "chantiers": [
+        {
+          "n": "Dubuis Amfreville",
+          "km": 6
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "Gosse",
+          "km": 22
+        }
+      ],
+      "km": 92,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 43.24
+    },
+    {
       "id": 1783488612069,
       "date": "2026-07-07",
       "desc": "Dubuis Amfreville - Les dents du Thuit - Gosse",
@@ -1884,5 +1910,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1783599777991
+  "ts": 1783599808359
 }
