@@ -1137,6 +1137,32 @@
       "total": 126.9
     },
     {
+      "id": 1784130053162,
+      "date": "2026-07-10",
+      "desc": "Gosse - 2888 - Les dents du Thuit",
+      "chantiers": [
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "2888",
+          "km": 16
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        }
+      ],
+      "km": 102,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 47.94
+    },
+    {
       "id": 1784129919054,
       "date": "2026-07-15",
       "desc": "Beriouche - Sci Amarth - Ldi - Gosse - Sci Amarth - Les dents du Thuit - DÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©chetterie Boos",
@@ -1980,5 +2006,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1784129920556
+  "ts": 1784130054664
 }
