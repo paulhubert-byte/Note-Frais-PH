@@ -1135,6 +1135,48 @@
       "dv": 0,
       "nt": "",
       "total": 126.9
+    },
+    {
+      "id": 1784129919054,
+      "date": "2026-07-15",
+      "desc": "Beriouche - Sci Amarth - Ldi - Gosse - Sci Amarth - Les dents du Thuit - DÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©chetterie Boos",
+      "chantiers": [
+        {
+          "n": "Beriouche",
+          "km": 28
+        },
+        {
+          "n": "Sci Amarth",
+          "km": 26
+        },
+        {
+          "n": "Ldi",
+          "km": 10
+        },
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "Sci Amarth",
+          "km": 26
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "DÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©chetterie Boos",
+          "km": 30
+        }
+      ],
+      "km": 206,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 96.82
     }
   ],
   "chantiers": [
@@ -1938,5 +1980,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1784129794894
+  "ts": 1784129920556
 }
