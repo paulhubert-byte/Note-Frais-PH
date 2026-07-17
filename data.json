@@ -1241,6 +1241,36 @@
       "dv": 0,
       "nt": "",
       "total": 87.42
+    },
+    {
+      "id": 1784270516669,
+      "date": "2026-07-17",
+      "desc": "Beriouche - Gosse - AMSN - Sci Amarth",
+      "chantiers": [
+        {
+          "n": "Beriouche",
+          "km": 28
+        },
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "AMSN",
+          "km": 16
+        },
+        {
+          "n": "Sci Amarth",
+          "km": 26
+        }
+      ],
+      "km": 92,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 43.24
     }
   ],
   "chantiers": [
@@ -2048,5 +2078,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1784270468337
+  "ts": 1784270518171
 }
