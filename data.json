@@ -953,72 +953,8 @@
       "total": 43.24
     },
     {
-      "id": 1783599710003,
-      "date": "2026-07-01",
-      "desc": "Foncia - Gosse - Les dents du Thuit - Dubuis Amfreville",
-      "chantiers": [
-        {
-          "n": "Foncia",
-          "km": 10
-        },
-        {
-          "n": "Gosse",
-          "km": 22
-        },
-        {
-          "n": "Les dents du Thuit",
-          "km": 64
-        },
-        {
-          "n": "Dubuis Amfreville",
-          "km": 6
-        }
-      ],
-      "km": 102,
-      "rp": 0,
-      "pg": 21,
-      "pk": 0,
-      "dv": 0,
-      "nt": "",
-      "total": 68.94
-    },
-    {
-      "id": 1783599776489,
-      "date": "2026-07-02",
-      "desc": "Les dents du Thuit - Gosse - Dubuis Amfreville - Le Havre en Scene - FFB",
-      "chantiers": [
-        {
-          "n": "Les dents du Thuit",
-          "km": 64
-        },
-        {
-          "n": "Gosse",
-          "km": 22
-        },
-        {
-          "n": "Dubuis Amfreville",
-          "km": 6
-        },
-        {
-          "n": "Le Havre en Scene",
-          "km": 184
-        },
-        {
-          "n": "FFB",
-          "km": 28
-        }
-      ],
-      "km": 304,
-      "rp": 0,
-      "pg": 0,
-      "pk": 0,
-      "dv": 0,
-      "nt": "",
-      "total": 142.88
-    },
-    {
-      "id": 1783599806856,
-      "date": "2026-07-03",
+      "id": 1783488612069,
+      "date": "2026-07-07",
       "desc": "Dubuis Amfreville - Les dents du Thuit - Gosse",
       "chantiers": [
         {
@@ -1041,168 +977,6 @@
       "dv": 0,
       "nt": "",
       "total": 43.24
-    },
-    {
-      "id": 1783600086018,
-      "date": "2026-07-07",
-      "desc": "AMSN - Gosse - Les dents du Thuit - Dubuis Amfreville - Poste - Poste mesnil esnard",
-      "chantiers": [
-        {
-          "n": "AMSN",
-          "km": 16
-        },
-        {
-          "n": "Gosse",
-          "km": 22
-        },
-        {
-          "n": "Les dents du Thuit",
-          "km": 64
-        },
-        {
-          "n": "Dubuis Amfreville",
-          "km": 6
-        },
-        {
-          "n": "Poste",
-          "km": 6
-        },
-        {
-          "n": "Poste mesnil esnard",
-          "km": 18
-        }
-      ],
-      "km": 132,
-      "rp": 0,
-      "pg": 0,
-      "pk": 0,
-      "dv": 0,
-      "nt": "",
-      "total": 62.04
-    },
-    {
-      "id": 1783488731631,
-      "date": "2026-07-08",
-      "desc": "Foncia - 16 bis rue de la Rose x2 - Les dents du Thuit - Gosse",
-      "chantiers": [
-        {
-          "n": "Foncia",
-          "km": 10
-        },
-        {
-          "n": "16 bis rue de la Rose",
-          "km": 18
-        },
-        {
-          "n": "Les dents du Thuit",
-          "km": 64
-        },
-        {
-          "n": "Gosse",
-          "km": 22
-        }
-      ],
-      "km": 124,
-      "rp": 0,
-      "pg": 0,
-      "pk": 0,
-      "dv": 0,
-      "nt": "",
-      "total": 58.28
-    },
-    {
-      "id": 1783599644180,
-      "date": "2026-07-09",
-      "desc": "Gosse - Les dents du Thuit - Le Havre en Scene",
-      "chantiers": [
-        {
-          "n": "Gosse",
-          "km": 22
-        },
-        {
-          "n": "Les dents du Thuit",
-          "km": 64
-        },
-        {
-          "n": "Le Havre en Scene",
-          "km": 184
-        }
-      ],
-      "km": 270,
-      "rp": 0,
-      "pg": 0,
-      "pk": 0,
-      "dv": 0,
-      "nt": "",
-      "total": 126.9
-    },
-    {
-      "id": 1784130053162,
-      "date": "2026-07-10",
-      "desc": "Gosse - 2888 - Les dents du Thuit",
-      "chantiers": [
-        {
-          "n": "Gosse",
-          "km": 22
-        },
-        {
-          "n": "2888",
-          "km": 16
-        },
-        {
-          "n": "Les dents du Thuit",
-          "km": 64
-        }
-      ],
-      "km": 102,
-      "rp": 0,
-      "pg": 0,
-      "pk": 0,
-      "dv": 0,
-      "nt": "",
-      "total": 47.94
-    },
-    {
-      "id": 1784129919054,
-      "date": "2026-07-15",
-      "desc": "Beriouche - Sci Amarth - Ldi - Gosse - Sci Amarth - Les dents du Thuit - Dechetterie Boos",
-      "chantiers": [
-        {
-          "n": "Beriouche",
-          "km": 28
-        },
-        {
-          "n": "Sci Amarth",
-          "km": 26
-        },
-        {
-          "n": "Ldi",
-          "km": 10
-        },
-        {
-          "n": "Gosse",
-          "km": 22
-        },
-        {
-          "n": "Sci Amarth",
-          "km": 26
-        },
-        {
-          "n": "Les dents du Thuit",
-          "km": 64
-        },
-        {
-          "n": "DÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©chetterie Boos",
-          "km": 30
-        }
-      ],
-      "km": 206,
-      "rp": 0,
-      "pg": 0,
-      "pk": 0,
-      "dv": 0,
-      "nt": "",
-      "total": 96.82
     }
   ],
   "chantiers": [
@@ -1309,10 +1083,6 @@
     {
       "n": "Belvedere",
       "k": 6
-    },
-    {
-      "n": "Beriouche",
-      "k": 14
     },
     {
       "n": "Beriouche Naima la Vaupaliere",
@@ -1647,10 +1417,6 @@
       "k": 13
     },
     {
-      "n": "Ldi",
-      "k": 5
-    },
-    {
       "n": "Le Havre en Scene",
       "k": 92
     },
@@ -1709,6 +1475,10 @@
     {
       "n": "Mercuzot",
       "k": 16
+    },
+    {
+      "n": "Méridienne",
+      "k": 5
     },
     {
       "n": "Merville",
@@ -1821,14 +1591,6 @@
     {
       "n": "Portes eau Louviers",
       "k": 30
-    },
-    {
-      "n": "Poste",
-      "k": 3
-    },
-    {
-      "n": "Poste mesnil esnard",
-      "k": 9
     },
     {
       "n": "Quene",
@@ -2006,5 +1768,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1784130461304
+  "ts": 1784270140771
 }
