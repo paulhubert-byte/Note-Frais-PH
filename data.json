@@ -1271,6 +1271,52 @@
       "dv": 0,
       "nt": "",
       "total": 43.24
+    },
+    {
+      "id": 1784560491750,
+      "date": "2026-07-20",
+      "desc": "Gosse - Les dents du Thuit - Sci Amarth - Logeo plenitude - Beriouche - Agence C21 - Lecomte St Filleul - Gosse",
+      "chantiers": [
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "Sci Amarth",
+          "km": 26
+        },
+        {
+          "n": "Logeo plenitude",
+          "km": 26
+        },
+        {
+          "n": "Beriouche",
+          "km": 28
+        },
+        {
+          "n": "Agence C21",
+          "km": 10
+        },
+        {
+          "n": "Lecomte St Filleul",
+          "km": 10
+        },
+        {
+          "n": "Gosse",
+          "km": 22
+        }
+      ],
+      "km": 208,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 97.76
     }
   ],
   "chantiers": [
@@ -2090,5 +2136,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1784560472022
+  "ts": 1784560493252
 }
