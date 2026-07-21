@@ -1317,6 +1317,40 @@
       "dv": 0,
       "nt": "",
       "total": 97.76
+    },
+    {
+      "id": 1784627585733,
+      "date": "2026-07-21",
+      "desc": "Gosse - Les dents du Thuit - Leroy M Tourville - Beriouche - CFA Lanfry",
+      "chantiers": [
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "Leroy M Tourville",
+          "km": 26
+        },
+        {
+          "n": "Beriouche",
+          "km": 28
+        },
+        {
+          "n": "CFA Lanfry",
+          "km": 30
+        }
+      ],
+      "km": 170,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 77.67,
+      "nt": "",
+      "total": 157.57
     }
   ],
   "chantiers": [
@@ -2136,5 +2170,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1784560493252
+  "ts": 1784627587239
 }
