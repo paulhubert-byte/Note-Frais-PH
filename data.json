@@ -1428,6 +1428,36 @@
       "dv": 0,
       "nt": "",
       "total": 66.74
+    },
+    {
+      "id": 1784703563285,
+      "date": "2026-07-24",
+      "desc": "Les dents du Thuit - Beriouche - Gosse - Sci Amarth",
+      "chantiers": [
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "Beriouche",
+          "km": 28
+        },
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "Sci Amarth",
+          "km": 26
+        }
+      ],
+      "km": 140,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 65.8
     }
   ],
   "chantiers": [
@@ -2251,5 +2281,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1784703512838
+  "ts": 1784703564787
 }
