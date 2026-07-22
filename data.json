@@ -1355,7 +1355,7 @@
     {
       "id": 1784703454768,
       "date": "2026-07-22",
-      "desc": "Ldi - Gosse - Beriouche - Les dents du Thuit - Rue de la haie bg",
+      "desc": "Ldi - Gosse - Leroy Merlin isneauville - Beriouche - Les dents du Thuit - Rue de la haie bg",
       "chantiers": [
         {
           "n": "Ldi",
@@ -2268,5 +2268,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1784703585352
+  "ts": 1784703616563
 }
