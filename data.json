@@ -1351,6 +1351,40 @@
       "dv": 77.67,
       "nt": "",
       "total": 157.57
+    },
+    {
+      "id": 1784703454768,
+      "date": "2026-07-22",
+      "desc": "Ldi - Gosse - Beriouche - Les dents du Thuit - Rue de la haie bg",
+      "chantiers": [
+        {
+          "n": "Ldi",
+          "km": 10
+        },
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "Beriouche",
+          "km": 28
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "Rue de la haie bg",
+          "km": 26
+        }
+      ],
+      "km": 150,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 119.8,
+      "nt": "",
+      "total": 190.3
     }
   ],
   "chantiers": [
@@ -2174,5 +2208,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1784703431865
+  "ts": 1784703456270
 }
