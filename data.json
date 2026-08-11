@@ -1447,6 +1447,28 @@
       "total": 65.8
     },
     {
+      "id": 1786430404201,
+      "date": "2026-08-10",
+      "desc": "Lestrade St Martin Boscherville - Leroy M Tourville",
+      "chantiers": [
+        {
+          "n": "Lestrade St Martin Boscherville",
+          "km": 30
+        },
+        {
+          "n": "Leroy M Tourville",
+          "km": 26
+        }
+      ],
+      "km": 56,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 26.32
+    },
+    {
       "id": 1786430369127,
       "date": "2026-08-11",
       "desc": "Lestrade St Martin Boscherville - Les dents du Thuit - Poste mesnil esnard",
@@ -2294,5 +2316,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1786430370628
+  "ts": 1786430405702
 }
