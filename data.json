@@ -1495,6 +1495,28 @@
       "total": 52.64
     },
     {
+      "id": 1786642363411,
+      "date": "2026-08-12",
+      "desc": "Lestrade St Martin Boscherville - Gosse",
+      "chantiers": [
+        {
+          "n": "Lestrade St Martin Boscherville",
+          "km": 30
+        },
+        {
+          "n": "Gosse",
+          "km": 22
+        }
+      ],
+      "km": 52,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 24.44
+    },
+    {
       "id": 1786642125236,
       "date": "2026-08-13",
       "desc": "Lestrade St Martin Boscherville - Dechetterie Boos",
@@ -2338,5 +2360,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1786642262168
+  "ts": 1786642364914
 }
