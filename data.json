@@ -1537,6 +1537,28 @@
       "dv": 0,
       "nt": "",
       "total": 26.32
+    },
+    {
+      "id": 1786967518792,
+      "date": "2026-08-14",
+      "desc": "Lestrade St Martin Boscherville - Patrizio",
+      "chantiers": [
+        {
+          "n": "Lestrade St Martin Boscherville",
+          "km": 30
+        },
+        {
+          "n": "Patrizio",
+          "km": 18
+        }
+      ],
+      "km": 48,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 21.5,
+      "nt": "",
+      "total": 44.06
     }
   ],
   "chantiers": [
@@ -2364,5 +2386,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1786967503156
+  "ts": 1786967520294
 }
