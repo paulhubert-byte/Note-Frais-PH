@@ -1561,19 +1561,6 @@
       "total": 44.46
     },
     {
-      "id": 1786975538496,
-      "date": "2026-08-17",
-      "desc": "Déplacement",
-      "chantiers": [],
-      "km": 0,
-      "rp": 0,
-      "pg": 0,
-      "pk": 0,
-      "dv": 0,
-      "nt": "",
-      "total": 0
-    },
-    {
       "id": 1786975557658,
       "date": "2026-08-17",
       "desc": "SCI Le Port - Lestrade St Martin Boscherville",
@@ -2421,5 +2408,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1786975559160
+  "ts": 1786975567797
 }
