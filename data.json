@@ -1620,6 +1620,32 @@
       "dv": 0,
       "nt": "",
       "total": 0
+    },
+    {
+      "id": 1787158037106,
+      "date": "2026-08-19",
+      "desc": "Les dents du Thuit - SCI Le Port - Lestrade St Martin Boscherville",
+      "chantiers": [
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        },
+        {
+          "n": "SCI Le Port",
+          "km": 10
+        },
+        {
+          "n": "Lestrade St Martin Boscherville",
+          "km": 30
+        }
+      ],
+      "km": 104,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 48.88
     }
   ],
   "chantiers": [
@@ -2447,5 +2473,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1787070598491
+  "ts": 1787158038610
 }
