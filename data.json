@@ -1747,6 +1747,36 @@
       "total": 99.06
     },
     {
+      "id": 1787896476986,
+      "date": "2026-08-27",
+      "desc": "Gosse - SCI Le Port - 2888 - Lestrade St Martin Boscherville",
+      "chantiers": [
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "SCI Le Port",
+          "km": 10
+        },
+        {
+          "n": "2888",
+          "km": 16
+        },
+        {
+          "n": "Lestrade St Martin Boscherville",
+          "km": 30
+        }
+      ],
+      "km": 78,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 36.66
+    },
+    {
       "id": 1787896428781,
       "date": "2026-08-28",
       "desc": "2888 - SCI Le Port - Lestrade St Martin Boscherville",
@@ -2598,5 +2628,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1787896430285
+  "ts": 1787896478488
 }
