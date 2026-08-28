@@ -1747,6 +1747,36 @@
       "total": 99.06
     },
     {
+      "id": 1787896668112,
+      "date": "2026-08-26",
+      "desc": "Gosse - SCI Le Port - Lestrade St Martin Boscherville - Les dents du Thuit",
+      "chantiers": [
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "SCI Le Port",
+          "km": 10
+        },
+        {
+          "n": "Lestrade St Martin Boscherville",
+          "km": 30
+        },
+        {
+          "n": "Les dents du Thuit",
+          "km": 64
+        }
+      ],
+      "km": 126,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 59.22
+    },
+    {
       "id": 1787896476986,
       "date": "2026-08-27",
       "desc": "Gosse - SCI Le Port - 2888 - Lestrade St Martin Boscherville",
@@ -2628,5 +2658,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1787896598343
+  "ts": 1787896669614
 }
