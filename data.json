@@ -1718,7 +1718,7 @@
     },
     {
       "id": 1787727348190,
-      "date": "2026-08-26",
+      "date": "2026-08-25",
       "desc": "SCI Le Port - Lestrade St Martin Boscherville - Gosse - Leroy M Isneauville",
       "chantiers": [
         {
@@ -2628,5 +2628,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1787896478488
+  "ts": 1787896598343
 }
