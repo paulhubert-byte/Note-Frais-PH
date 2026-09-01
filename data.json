@@ -1857,6 +1857,40 @@
       "dv": 0,
       "nt": "",
       "total": 26.32
+    },
+    {
+      "id": 1788284739985,
+      "date": "2026-09-01",
+      "desc": "C21 villa Longchamps - 2888 - Gosse - Beriouche - Leroy M Isneauville",
+      "chantiers": [
+        {
+          "n": "C21 villa Longchamps",
+          "km": 18
+        },
+        {
+          "n": "2888",
+          "km": 16
+        },
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "Beriouche",
+          "km": 28
+        },
+        {
+          "n": "Leroy M Isneauville",
+          "km": 22
+        }
+      ],
+      "km": 106,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 71.91,
+      "nt": "",
+      "total": 121.73
     }
   ],
   "chantiers": [
@@ -2684,5 +2718,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1787896763725
+  "ts": 1788284741503
 }
