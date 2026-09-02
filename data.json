@@ -1891,6 +1891,40 @@
       "dv": 71.91,
       "nt": "",
       "total": 121.73
+    },
+    {
+      "id": 1788367001313,
+      "date": "2026-09-02",
+      "desc": "2888 - Gosse - C21 villa Longchamps - Lestrade St Martin Boscherville - 2888",
+      "chantiers": [
+        {
+          "n": "2888",
+          "km": 16
+        },
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "C21 villa Longchamps",
+          "km": 18
+        },
+        {
+          "n": "Lestrade St Martin Boscherville",
+          "km": 30
+        },
+        {
+          "n": "2888",
+          "km": 16
+        }
+      ],
+      "km": 102,
+      "rp": 0,
+      "pg": 15,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 62.94
     }
   ],
   "chantiers": [
@@ -2718,5 +2752,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1788284741503
+  "ts": 1788367002825
 }
