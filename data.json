@@ -2067,6 +2067,40 @@
       "dv": 0,
       "nt": "",
       "total": 26.32
+    },
+    {
+      "id": 1789035269470,
+      "date": "2026-09-10",
+      "desc": "Gosse - Beriouche - Beriouche - 2888 - Le Havre en Scene",
+      "chantiers": [
+        {
+          "n": "Gosse",
+          "km": 22
+        },
+        {
+          "n": "Beriouche",
+          "km": 28
+        },
+        {
+          "n": "Beriouche",
+          "km": 28
+        },
+        {
+          "n": "2888",
+          "km": 16
+        },
+        {
+          "n": "Le Havre en Scene",
+          "km": 184
+        }
+      ],
+      "km": 278,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 130.66
     }
   ],
   "chantiers": [
@@ -2894,5 +2928,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1789035188963
+  "ts": 1789035270972
 }
