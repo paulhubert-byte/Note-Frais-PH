@@ -2043,32 +2043,6 @@
       "total": 26.32
     },
     {
-      "id": 1789032924531,
-      "date": "2026-09-09",
-      "desc": "Gosse - 2888 - C21 villa Longchamps",
-      "chantiers": [
-        {
-          "n": "Gosse",
-          "km": 22
-        },
-        {
-          "n": "2888",
-          "km": 16
-        },
-        {
-          "n": "C21 villa Longchamps",
-          "km": 18
-        }
-      ],
-      "km": 56,
-      "rp": 0,
-      "pg": 0,
-      "pk": 0,
-      "dv": 0,
-      "nt": "",
-      "total": 26.32
-    },
-    {
       "id": 1789035269470,
       "date": "2026-09-10",
       "desc": "Gosse - Beriouche - Beriouche - 2888 - Le Havre en Scene",
@@ -2958,5 +2932,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1789124622073
+  "ts": 1789124880262
 }
