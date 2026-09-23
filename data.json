@@ -2277,6 +2277,40 @@
       "dv": 0,
       "nt": "",
       "total": 25.38
+    },
+    {
+      "id": 1790158375050,
+      "date": "2026-09-21",
+      "desc": "2888 - Leroy M Isneauville - Beriouche - C21 cours d'Ecosse - Office tourisme Neubourg",
+      "chantiers": [
+        {
+          "n": "2888",
+          "km": 16
+        },
+        {
+          "n": "Leroy M Isneauville",
+          "km": 22
+        },
+        {
+          "n": "Beriouche",
+          "km": 28
+        },
+        {
+          "n": "C21 cours d'Ecosse",
+          "km": 10
+        },
+        {
+          "n": "Office tourisme Neubourg",
+          "km": 80
+        }
+      ],
+      "km": 156,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 73.32
     }
   ],
   "chantiers": [
@@ -3132,5 +3166,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1790158360664
+  "ts": 1790158376552
 }
