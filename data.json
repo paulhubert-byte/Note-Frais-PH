@@ -2359,6 +2359,36 @@
       "dv": 0,
       "nt": "",
       "total": 30.08
+    },
+    {
+      "id": 1790158747434,
+      "date": "2026-09-23",
+      "desc": "Beriouche - Devillers - Ixina Tourville - C21 11 rue du cercle",
+      "chantiers": [
+        {
+          "n": "Beriouche",
+          "km": 28
+        },
+        {
+          "n": "Devillers",
+          "km": 10
+        },
+        {
+          "n": "Ixina Tourville",
+          "km": 26
+        },
+        {
+          "n": "C21 11 rue du cercle",
+          "km": 10
+        }
+      ],
+      "km": 74,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 34.78
     }
   ],
   "chantiers": [
@@ -3218,5 +3248,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1790158739132
+  "ts": 1790158748936
 }
