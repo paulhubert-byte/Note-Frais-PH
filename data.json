@@ -2433,6 +2433,32 @@
       "dv": 0,
       "nt": "",
       "total": 17.86
+    },
+    {
+      "id": 1790604319999,
+      "date": "2026-09-29",
+      "desc": "Beriouche - Foncia - CFA Lanfry",
+      "chantiers": [
+        {
+          "n": "Beriouche",
+          "km": 28
+        },
+        {
+          "n": "Foncia",
+          "km": 10
+        },
+        {
+          "n": "CFA Lanfry",
+          "km": 30
+        }
+      ],
+      "km": 68,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 31.96
     }
   ],
   "chantiers": [
@@ -3292,5 +3318,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1790604268396
+  "ts": 1790604321501
 }
