@@ -2487,6 +2487,36 @@
       "total": 31.02
     },
     {
+      "id": 1791372485456,
+      "date": "2026-10-01",
+      "desc": "Beriouche - 39 rue cauchoise - Le Havre en Scene - SCI Le Port",
+      "chantiers": [
+        {
+          "n": "Beriouche",
+          "km": 28
+        },
+        {
+          "n": "39 rue cauchoise",
+          "km": 10
+        },
+        {
+          "n": "Le Havre en Scene",
+          "km": 184
+        },
+        {
+          "n": "SCI Le Port",
+          "km": 10
+        }
+      ],
+      "km": 232,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 109.04
+    },
+    {
       "id": 1791372272332,
       "date": "2026-10-06",
       "desc": "39 rue cauchoise - Beriouche - Logeo plenitude - Manoir des Creuniers",
@@ -3439,5 +3469,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1791372410989
+  "ts": 1791372486960
 }
