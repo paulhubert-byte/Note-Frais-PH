@@ -2625,32 +2625,6 @@
       "total": 16.92
     },
     {
-      "id": 1791372381923,
-      "date": "2026-10-07",
-      "desc": "Beriouche - 39 rue cauchoise - SCI Le Port",
-      "chantiers": [
-        {
-          "n": "Beriouche",
-          "km": 28
-        },
-        {
-          "n": "39 rue cauchoise",
-          "km": 10
-        },
-        {
-          "n": "SCI Le Port",
-          "km": 10
-        }
-      ],
-      "km": 48,
-      "rp": 0,
-      "pg": 0,
-      "pk": 0,
-      "dv": 0,
-      "nt": "",
-      "total": 22.56
-    },
-    {
       "id": 1791372848335,
       "date": "2026-10-08",
       "desc": "Logeo plenitude - 39 rue cauchoise - Le Havre en Scene",
@@ -3542,5 +3516,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1791374570356
+  "ts": 1791374599149
 }
