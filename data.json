@@ -2547,6 +2547,32 @@
       "total": 62.04
     },
     {
+      "id": 1791374568847,
+      "date": "2026-10-05",
+      "desc": "Beriouche - 39 rue cauchoise - SCI Le Port",
+      "chantiers": [
+        {
+          "n": "Beriouche",
+          "km": 28
+        },
+        {
+          "n": "39 rue cauchoise",
+          "km": 10
+        },
+        {
+          "n": "SCI Le Port",
+          "km": 10
+        }
+      ],
+      "km": 48,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 22.56
+    },
+    {
       "id": 1791372272332,
       "date": "2026-10-06",
       "desc": "39 rue cauchoise - Beriouche - Logeo plenitude - Manoir des Creuniers",
@@ -3516,5 +3542,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1791372849837
+  "ts": 1791374570356
 }
