@@ -2649,6 +2649,28 @@
       "dv": 0,
       "nt": "",
       "total": 103.4
+    },
+    {
+      "id": 1791374631747,
+      "date": "2026-10-09",
+      "desc": "39 rue cauchoise - Logeo plenitude",
+      "chantiers": [
+        {
+          "n": "39 rue cauchoise",
+          "km": 10
+        },
+        {
+          "n": "Logeo plenitude",
+          "km": 26
+        }
+      ],
+      "km": 36,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 16.92
     }
   ],
   "chantiers": [
@@ -3516,5 +3538,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1791374599149
+  "ts": 1791374633249
 }
