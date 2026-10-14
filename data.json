@@ -2723,6 +2723,32 @@
       "dv": 0,
       "nt": "",
       "total": 161.68
+    },
+    {
+      "id": 1791970279505,
+      "date": "2026-10-14",
+      "desc": "Belbeuf auto - C21 11 rue du cercle - 39 rue cauchoise",
+      "chantiers": [
+        {
+          "n": "Belbeuf auto",
+          "km": 14
+        },
+        {
+          "n": "C21 11 rue du cercle",
+          "km": 10
+        },
+        {
+          "n": "39 rue cauchoise",
+          "km": 10
+        }
+      ],
+      "km": 34,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 15.98
     }
   ],
   "chantiers": [
@@ -3594,5 +3620,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1791970164223
+  "ts": 1791970281007
 }
