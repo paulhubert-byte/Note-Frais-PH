@@ -2673,6 +2673,32 @@
       "total": 16.92
     },
     {
+      "id": 1791970158281,
+      "date": "2026-10-12",
+      "desc": "39 rue cauchoise - Logeo plenitude - Lavenu Rotharmel",
+      "chantiers": [
+        {
+          "n": "39 rue cauchoise",
+          "km": 10
+        },
+        {
+          "n": "Logeo plenitude",
+          "km": 26
+        },
+        {
+          "n": "Lavenu Rotharmel",
+          "km": 8
+        }
+      ],
+      "km": 44,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 20.68
+    },
+    {
       "id": 1791970021716,
       "date": "2026-10-13",
       "desc": "39 rue cauchoise - CFA Alencon - Office tourisme Neubourg",
@@ -3568,5 +3594,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1791970152715
+  "ts": 1791970164223
 }
