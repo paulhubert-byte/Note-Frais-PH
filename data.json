@@ -2775,6 +2775,36 @@
       "dv": 0,
       "nt": "",
       "total": 94
+    },
+    {
+      "id": 1792149223203,
+      "date": "2026-10-16",
+      "desc": "Poste - 39 rue cauchoise - Foncia - Agence C21",
+      "chantiers": [
+        {
+          "n": "Poste",
+          "km": 6
+        },
+        {
+          "n": "39 rue cauchoise",
+          "km": 10
+        },
+        {
+          "n": "Foncia",
+          "km": 10
+        },
+        {
+          "n": "Agence C21",
+          "km": 10
+        }
+      ],
+      "km": 36,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 16.92
     }
   ],
   "chantiers": [
@@ -3646,5 +3676,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1792149193906
+  "ts": 1792149224709
 }
