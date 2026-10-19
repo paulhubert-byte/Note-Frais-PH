@@ -2805,6 +2805,36 @@
       "dv": 0,
       "nt": "",
       "total": 16.92
+    },
+    {
+      "id": 1792398474291,
+      "date": "2026-10-19",
+      "desc": "C21 11 rue du cercle - C21 11 rue du cercle - Cardin - Vernon papeterie",
+      "chantiers": [
+        {
+          "n": "C21 11 rue du cercle",
+          "km": 10
+        },
+        {
+          "n": "C21 11 rue du cercle",
+          "km": 10
+        },
+        {
+          "n": "Cardin",
+          "km": 12
+        },
+        {
+          "n": "Vernon papeterie",
+          "km": 122
+        }
+      ],
+      "km": 154,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 72.38
     }
   ],
   "chantiers": [
@@ -3684,5 +3714,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1792398467725
+  "ts": 1792398475793
 }
