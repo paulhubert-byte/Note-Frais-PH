@@ -210,10 +210,10 @@ table.export-tbl{width:100%;border-collapse:collapse;font-size:11px}
   <div class="tok-box">
     <div class="tok-logo">H</div>
     <div class="tok-title">Frais HUBERT</div>
-    <div class="tok-sub">Entrez votre Personal Access Token GitHub pour synchroniser vos données sur tous vos appareils.</div>
-    <input type="password" class="tok-input" id="tok-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" autocorrect="off" spellcheck="false">
-    <button class="tok-btn" onclick="validerToken()">Acceder a l'application</button>
-    <div class="tok-help">GitHub → Settings → Developer settings<br>→ Personal access tokens (classic)<br>→ Generate new token → cocher <b>repo</b></div>
+    <div class="tok-sub" id="tok-sub">Entrez votre Personal Access Token GitHub pour synchroniser vos données sur tous vos appareils.</div>
+    <input type="password" class="tok-input" id="tok-input" placeholder="ghp_... ou github_pat_..." autocomplete="off" autocorrect="off" spellcheck="false">
+    <button class="tok-btn" onclick="validerToken()">Accéder à l'application</button>
+    <div class="tok-help">GitHub → Settings → Developer settings<br>→ Personal access tokens (classic)<br>→ Generate new token → cocher <b>repo</b><br>Choisissez une expiration longue (1 an par exemple).</div>
   </div>
 </div>
 
@@ -401,6 +401,7 @@ table.export-tbl{width:100%;border-collapse:collapse;font-size:11px}
     <div class="card-pad">
       <button class="btn btn-ghost" onclick="forceSave()">↑ Forcer la synchronisation GitHub</button>
       <button class="btn btn-ghost" style="margin-top:4px" onclick="exportJSON()">Télécharger une copie locale (JSON)</button>
+      <div style="font-size:11px;color:#8a9bb0;text-align:center;margin-top:6px">Version : <span id="app-version"></span></div>
     </div>
   </div>
 </div>
@@ -471,6 +472,7 @@ table.export-tbl{width:100%;border-collapse:collapse;font-size:11px}
 <!-- JAVASCRIPT -->
 <script>
 /* ===== CONFIG GITHUB ===== */
+var APP_VERSION = 'v2 — synchro sécurisée';
 var GH_TOKEN = localStorage.getItem('hb_gh_token') || '';
 var GH_REPO   = 'paulhubert-byte/Note-Frais-PH';
 var GH_FILE   = 'data.json';
@@ -482,111 +484,188 @@ var BASE_CHANTIERS=[{n:"2888",k:8},{n:"16 bis rue de la Rose",k:9},{n:"34 champ 
 var MOIS=['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];
 
 /* ===== ÉTAT ===== */
-var entrees=[], chantiers=[], selection=[];
-var config={nom:'Paul HUBERT',fn:'President',vh:'Renault Austral GS-496-MB',ps:8,tx:0.47};
-var moisListe='', moisExport='', pendingNom='', paysage=false;
-var ghSha=null, saveTimer=null;
+var CONFIG_DEFAUT={nom:'Paul HUBERT',fn:'President',vh:'Renault Austral GS-496-MB',ps:8,tx:0.47};
+var entrees=[], chantiers=[], selection=[], supprimes=[], chSupprimes=[];
+var config=Object.assign({},CONFIG_DEFAUT);
+var moisListe='', moisExport='', pendingNom='', paysage=false, pageCourante='accueil';
+var saveTimer=null, retryTimer=null, syncEnCours=false, resyncDemande=false;
 
-/* ===== SYNC GITHUB ===== */
+/* =====================================================================
+   SYNCHRONISATION GITHUB — v2
+   Principe : avant chaque écriture, on relit la version GitHub et on
+   FUSIONNE. Seules les modifications faites sur cet appareil depuis sa
+   dernière synchro réussie sont ajoutées. Un appareil resté longtemps
+   sans servir ne peut donc plus écraser les saisies faites ailleurs.
+   ===================================================================== */
 function setSyncStatus(state, txt) {
   var dot = document.getElementById('sync-dot');
   var label = document.getElementById('sync-txt');
   dot.className = 'sync-dot' + (state==='syncing' ? ' syncing' : state==='err' ? ' err' : '');
   label.textContent = txt;
 }
+function tokenValide(t){return !!t && (t.indexOf('ghp_')===0 || t.indexOf('github_pat_')===0);}
+function enTetes(){return {'Authorization':'Bearer '+GH_TOKEN,'Accept':'application/vnd.github.v3+json'};}
 
-async function ghGet() {
-  setSyncStatus('syncing', 'Chargement GitHub...');
-  try {
-    var r = await fetch(GH_API + '?ref=' + GH_BRANCH + '&t=' + Date.now(), {
-      headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json' }
-    });
-    if (r.status === 404) {
-      // Fichier inexistant, on part de zéro
-      ghSha = null;
-      setSyncStatus('ok', 'Nouveau fichier — prêt');
-      return null;
-    }
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    var json = await r.json();
-    ghSha = json.sha;
-    var decoded = atob(json.content.replace(/\n/g,''));
-    var data = JSON.parse(decoded);
-    setSyncStatus('ok', 'GitHub synchronisé');
-    return data;
-  } catch(e) {
-    setSyncStatus('err', 'Erreur GitHub');
-    console.error(e);
-    return null;
+/* Encodage UTF-8 correct (l'ancienne version abîmait les accents) */
+function b64Encode(str){return btoa(unescape(encodeURIComponent(str)));}
+function b64Decode(b64){var bin=atob(b64.replace(/\s/g,''));try{return decodeURIComponent(escape(bin));}catch(e){return bin;}}
+function reparerTexte(s){
+  for(var i=0;i<10;i++){
+    if(!/[\u0080-\u00ff]/.test(s))break;
+    try{var d=decodeURIComponent(escape(s));if(d===s)break;s=d;}catch(e){break;}
   }
+  return s;
+}
+function reparerDonnees(o){
+  if(typeof o==='string')return reparerTexte(o);
+  if(Array.isArray(o))return o.map(reparerDonnees);
+  if(o&&typeof o==='object'){var r={};for(var k in o)r[k]=reparerDonnees(o[k]);return r;}
+  return o;
 }
 
-async function ghPut() {
-  setSyncStatus('syncing', 'Sauvegarde GitHub...');
-  try {
-    var payload = { entrees:entrees, chantiers:chantiers, config:config, ts: Date.now() };
-    var content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
-    var body = { message: 'Mise à jour données frais ' + new Date().toISOString().slice(0,10), content: content, branch: GH_BRANCH };
-    if (ghSha) body.sha = ghSha;
-    var r = await fetch(GH_API, {
-      method: 'PUT',
-      headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    if (!r.ok) {
-      var err = await r.json();
-      // Conflit SHA → recharger et réessayer
-      if (r.status === 409 || (err.message && err.message.includes('sha'))) {
-        await ghGet();
-        return ghPut();
+function lastSync(){return parseInt(localStorage.getItem('hb_last_sync'))||0;}
+function etatLocal(){return {entrees:entrees,chantiers:chantiers,config:config,supprimes:supprimes,chSupprimes:chSupprimes};}
+function appliquerEtat(d){
+  d=d||{};
+  entrees=d.entrees||[];
+  chantiers=(d.chantiers&&d.chantiers.length)?d.chantiers:copieBase();
+  supprimes=d.supprimes||[];
+  chSupprimes=d.chSupprimes||[];
+  config=Object.assign({},CONFIG_DEFAUT,d.config||{});
+}
+function memoriserLocal(){try{localStorage.setItem('hb_backup',JSON.stringify(etatLocal()));}catch(e){}}
+function comparable(d){
+  d=d||{};
+  return JSON.stringify({e:d.entrees||[],c:d.chantiers||[],f:d.config||{},s:d.supprimes||[],cs:d.chSupprimes||[]});
+}
+
+function fusionner(r,l,depuis){
+  r=r||{};l=l||{};
+  // Journées supprimées (sur n'importe quel appareil)
+  var sup={};
+  (r.supprimes||[]).concat(l.supprimes||[]).forEach(function(id){sup[id]=1;});
+  // Journées : base = GitHub, + ce que cet appareil a créé/modifié depuis sa dernière synchro
+  var map={};
+  (r.entrees||[]).forEach(function(e){map[e.id]=e;});
+  (l.entrees||[]).forEach(function(e){
+    if((e.maj||0)>depuis){var x=map[e.id];if(!x||(x.maj||0)<=e.maj)map[e.id]=e;}
+  });
+  var ents=[];
+  for(var id in map){if(!sup[id])ents.push(map[id]);}
+  ents.sort(function(a,b){return a.date===b.date?(a.id-b.id):a.date.localeCompare(b.date);});
+  // Chantiers
+  var tomb={};
+  (r.chSupprimes||[]).concat(l.chSupprimes||[]).forEach(function(t){var k=normaliser(t.n);if(!tomb[k]||tomb[k]<t.t)tomb[k]=t.t;});
+  var cmap={};
+  var rch=(r.chantiers&&r.chantiers.length)?r.chantiers:copieBase();
+  rch.forEach(function(c){cmap[normaliser(c.n)]=c;});
+  (l.chantiers||[]).forEach(function(c){
+    if((c.maj||0)>depuis){var k=normaliser(c.n);var x=cmap[k];if(!x||(x.maj||0)<=c.maj)cmap[k]=c;}
+  });
+  var chs=[];
+  for(var k in cmap){if(!tomb[k]||(cmap[k].maj||0)>tomb[k])chs.push(cmap[k]);}
+  chs.sort(function(a,b){return a.n.localeCompare(b.n,'fr');});
+  var chSup=[];for(var k2 in tomb)chSup.push({n:k2,t:tomb[k2]});
+  // Configuration
+  var cfg=r.config||{};
+  if(l.config&&(l.config.maj||0)>depuis&&(l.config.maj||0)>=(cfg.maj||0))cfg=l.config;
+  return {entrees:ents,chantiers:chs,config:cfg,supprimes:Object.keys(sup).map(Number),chSupprimes:chSup};
+}
+
+async function ghLire(){
+  var r=await fetch(GH_API+'?ref='+GH_BRANCH+'&t='+Date.now(),{headers:enTetes(),cache:'no-store'});
+  if(r.status===404)return {data:null,sha:null};
+  if(!r.ok){var e=new Error('HTTP '+r.status);e.status=r.status;throw e;}
+  var j=await r.json();
+  return {data:reparerDonnees(JSON.parse(b64Decode(j.content))),sha:j.sha};
+}
+
+async function ghEcrire(d,sha){
+  var payload={entrees:d.entrees,chantiers:d.chantiers,config:d.config,supprimes:d.supprimes,chSupprimes:d.chSupprimes,version:2,ts:Date.now()};
+  var body={message:'Mise à jour données frais '+new Date().toISOString().slice(0,10),content:b64Encode(JSON.stringify(payload,null,2)),branch:GH_BRANCH};
+  if(sha)body.sha=sha;
+  var h=enTetes();h['Content-Type']='application/json';
+  var r=await fetch(GH_API,{method:'PUT',headers:h,body:JSON.stringify(body)});
+  if(r.status===409||r.status===422)return {conflit:true};
+  if(!r.ok){var e=new Error('HTTP '+r.status);e.status=r.status;throw e;}
+  return {ok:true};
+}
+
+function planifierRetry(ms){if(retryTimer)clearTimeout(retryTimer);retryTimer=setTimeout(synchroniser,ms);}
+
+async function synchroniser(){
+  if(!GH_TOKEN)return;
+  if(syncEnCours){resyncDemande=true;return;}
+  syncEnCours=true;
+  setSyncStatus('syncing','Synchronisation...');
+  try{
+    var reussi=false;
+    for(var essai=0;essai<4&&!reussi;essai++){
+      var t0=Date.now();
+      var lu=await ghLire();
+      var depuis=lastSync();
+      var fus=fusionner(lu.data,etatLocal(),depuis);
+      if(!lu.data||comparable(lu.data)!==comparable(fus)){
+        var res=await ghEcrire(fus,lu.sha);
+        if(res.conflit)continue;
       }
-      throw new Error('HTTP ' + r.status + ' ' + JSON.stringify(err));
+      // Garder ce qui a été saisi pendant la synchro
+      var nouvel=fusionner(fus,etatLocal(),t0);
+      appliquerEtat(nouvel);
+      localStorage.setItem('hb_last_sync',String(t0));
+      memoriserLocal();
+      if(comparable(nouvel)!==comparable(fus))resyncDemande=true;
+      reussi=true;
     }
-    var res = await r.json();
-    ghSha = res.content.sha;
-    setSyncStatus('ok', 'GitHub synchronisé ✓');
-    // Copie locale de secours
-    try { localStorage.setItem('hb_backup', JSON.stringify(payload)); } catch(e) {}
-  } catch(e) {
-    setSyncStatus('err', 'Erreur sauvegarde');
+    if(!reussi)throw new Error('Conflits répétés');
+    setSyncStatus('ok','GitHub synchronisé ✓');
+    rafraichirPage();
+  }catch(e){
     console.error(e);
+    if(e.status===401){
+      setSyncStatus('err','Accès GitHub refusé');
+      montrerOverlayToken('Votre accès GitHub a expiré ou n\'est plus valable. Créez un nouveau token et collez-le ici. Vos données sont en sécurité sur GitHub.');
+    }else if(!navigator.onLine||e instanceof TypeError){
+      setSyncStatus('err','Hors ligne — non synchronisé');
+      planifierRetry(30000);
+    }else{
+      setSyncStatus('err','Erreur synchro ('+(e.status||e.message)+')');
+      planifierRetry(60000);
+    }
+  }finally{
+    syncEnCours=false;
+    if(resyncDemande){resyncDemande=false;setTimeout(synchroniser,500);}
   }
 }
 
-function sauver() {
-  if (saveTimer) clearTimeout(saveTimer);
-  setSyncStatus('syncing', 'En attente...');
-  saveTimer = setTimeout(ghPut, 1500);
+function sauver(){
+  memoriserLocal();
+  if(saveTimer)clearTimeout(saveTimer);
+  setSyncStatus('syncing','En attente...');
+  saveTimer=setTimeout(synchroniser,1500);
 }
 
-async function charger() {
-  var data = await ghGet();
-  if (data) {
-    entrees   = data.entrees   || [];
-    chantiers = (data.chantiers && data.chantiers.length) ? data.chantiers : copieBase();
-    if (data.config) { for (var k in data.config) config[k] = data.config[k]; }
-  } else {
-    // Essayer la copie locale de secours
-    try {
-      var bk = localStorage.getItem('hb_backup');
-      if (bk) {
-        var d2 = JSON.parse(bk);
-        entrees   = d2.entrees   || [];
-        chantiers = (d2.chantiers && d2.chantiers.length) ? d2.chantiers : copieBase();
-        if (d2.config) { for (var k in d2.config) config[k] = d2.config[k]; }
-        setSyncStatus('ok', 'Copie locale chargée');
-      } else {
-        chantiers = copieBase();
-      }
-    } catch(e) { chantiers = copieBase(); }
-  }
+async function charger(){
+  // Affichage immédiat de la copie de cet appareil, puis synchro avec GitHub.
+  // Une copie ancienne ne peut rien écraser : seules les saisies faites ici
+  // depuis la dernière synchro réussie sont envoyées.
+  try{var bk=localStorage.getItem('hb_backup');appliquerEtat(bk?reparerDonnees(JSON.parse(bk)):{});}catch(e){appliquerEtat({});}
   appliquerConfig();
   afficherAccueil();
+  await synchroniser();
+}
+
+function rafraichirPage(){
+  afficherAccueil();
+  if(pageCourante!=='cfg')appliquerConfig();
+  if(pageCourante==='liste'){buildMois('liste-mois',moisListe);afficherListe();}
+  if(pageCourante==='export'){buildMois('export-mois',moisExport);afficherExport();afficherCumul();}
+  if(pageCourante==='cfg'){document.getElementById('cfg-nb-ch').textContent=chantiers.length;afficherListeChantiers();}
 }
 
 async function forceSave() {
-  await ghPut();
-  afficherAlerte('alert-cfg', 'Synchronisation effectuée.', 'ok');
+  await synchroniser();
+  afficherAlerte('alert-cfg', document.getElementById('sync-dot').classList.contains('err')?'La synchronisation a échoué. Vérifiez la connexion.':'Synchronisation effectuée.', document.getElementById('sync-dot').classList.contains('err')?'err':'ok');
 }
 
 /* ===== NAVIGATION ===== */
@@ -596,13 +675,14 @@ function aller(id) {
     document.getElementById('page-'+pages[i]).classList.remove('on');
     document.getElementById('nav-'+pages[i]).classList.remove('on');
   }
+  pageCourante=id;
   document.getElementById('page-'+id).classList.add('on');
   document.getElementById('nav-'+id).classList.add('on');
   document.querySelector('.content').scrollTop=0;
   if(id==='accueil') afficherAccueil();
   if(id==='liste')   { buildMois('liste-mois',moisListe); afficherListe(); }
   if(id==='export')  { buildMois('export-mois',moisExport); afficherExport(); afficherCumul(); }
-  if(id==='cfg')     { document.getElementById('cfg-nb-ch').textContent=chantiers.length; afficherListeChantiers(); var ct=localStorage.getItem('hb_gh_token')||''; document.getElementById('cfg-token-display').placeholder=ct?ct.slice(0,8)+'...':'Non configuré'; }
+  if(id==='cfg')     { appliquerConfig(); document.getElementById('cfg-nb-ch').textContent=chantiers.length; afficherListeChantiers(); var ct=localStorage.getItem('hb_gh_token')||''; document.getElementById('cfg-token-display').placeholder=ct?ct.slice(0,8)+'...':'Non configuré'; }
 }
 
 /* ===== UTILITAIRES ===== */
@@ -617,13 +697,13 @@ function selMois(elId,m){if(elId==='liste-mois'){moisListe=m;buildMois(elId,m);a
 function euro(n){return Number(n).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';}
 function dateF(d){var p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
 function dateLong(d){try{return new Date(d+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});}catch(e){return dateF(d);}}
-function normaliser(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+function normaliser(s){return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();}
 function echapper(s){return s.replace(/\\/g,'\\\\').replace(/'/g,'\\x27').replace(/"/g,'&quot;');}
 function afficherAlerte(id,msg,type,duree){var el=document.getElementById(id);if(!el)return;el.innerHTML='<div class="alerte alerte-'+type+'">'+msg+'</div>';setTimeout(function(){if(el)el.innerHTML='';},duree||4000);}
 
 /* ===== CONFIG ===== */
 function appliquerConfig(){document.getElementById('cfg-nom').value=config.nom;document.getElementById('cfg-fn').value=config.fn;document.getElementById('cfg-vh').value=config.vh;document.getElementById('cfg-ps').value=config.ps;document.getElementById('cfg-tx').value=config.tx;}
-function saveCfg(){config.nom=document.getElementById('cfg-nom').value.trim()||config.nom;config.fn=document.getElementById('cfg-fn').value.trim()||config.fn;config.vh=document.getElementById('cfg-vh').value.trim()||config.vh;config.ps=parseInt(document.getElementById('cfg-ps').value)||config.ps;config.tx=parseFloat(document.getElementById('cfg-tx').value)||config.tx;sauver();afficherAlerte('alert-cfg','Configuration enregistrée.','ok');afficherAccueil();}
+function saveCfg(){config.nom=document.getElementById('cfg-nom').value.trim()||config.nom;config.fn=document.getElementById('cfg-fn').value.trim()||config.fn;config.vh=document.getElementById('cfg-vh').value.trim()||config.vh;config.ps=parseInt(document.getElementById('cfg-ps').value)||config.ps;config.tx=parseFloat(document.getElementById('cfg-tx').value)||config.tx;config.maj=Date.now();sauver();afficherAlerte('alert-cfg','Configuration enregistrée.','ok');afficherAccueil();}
 
 /* ===== ACCUEIL ===== */
 function afficherAccueil(){var mc=moisCour();var e=entrees.filter(function(x){return cle(x.date)===mc;});var km=0,rp=0,pg=0,pk=0,dv=0;for(var i=0;i<e.length;i++){km+=e[i].km;rp+=e[i].rp;pg+=e[i].pg;pk+=e[i].pk;dv+=e[i].dv;}var ind=+(km*config.tx).toFixed(2);var fr=+(rp+pg+pk+dv).toFixed(2);var tot=+(ind+fr).toFixed(2);document.getElementById('acc-mois').textContent=lbl(mc);document.getElementById('acc-total').textContent=euro(tot);document.getElementById('acc-sub').textContent=e.length+' journée'+(e.length>1?'s':'');document.getElementById('acc-km').textContent=km+' km';document.getElementById('acc-ind').textContent=euro(ind);document.getElementById('acc-fr').textContent=euro(fr);document.getElementById('acc-rp').textContent=euro(+rp.toFixed(2));document.getElementById('acc-pg').textContent=euro(+pg.toFixed(2));document.getElementById('acc-pk').textContent=euro(+pk.toFixed(2));document.getElementById('acc-dv').textContent=euro(+dv.toFixed(2));document.getElementById('hdr-total').textContent=euro(tot);document.getElementById('hdr-sub').textContent=lbl(mc);}
@@ -632,21 +712,21 @@ function afficherAccueil(){var mc=moisCour();var e=entrees.filter(function(x){re
 function onSearch(){var q=document.getElementById('ch-search').value.trim();var drop=document.getElementById('ch-dropdown');var panel=document.getElementById('new-ch-panel');if(!q){drop.classList.remove('visible');panel.classList.remove('visible');return;}var qn=normaliser(q);var res=[];for(var i=0;i<chantiers.length;i++){if(normaliser(chantiers[i].n).indexOf(qn)>=0)res.push(chantiers[i]);if(res.length>=20)break;}var html='';for(var i=0;i<res.length;i++){var ar=res[i].k*2;html+='<div class="drop-item" onmousedown="event.preventDefault()" onclick="ajouterSelection(\''+echapper(res[i].n)+'\','+ar+')"><span>'+res[i].n+'</span><span class="drop-km">'+res[i].k+' km aller — '+ar+' km A/R</span></div>';}var existe=false;for(var i=0;i<chantiers.length;i++){if(normaliser(chantiers[i].n)===qn){existe=true;break;}}if(!existe)html+='<div class="drop-new" onmousedown="event.preventDefault()" onclick="demanderDistance(\''+echapper(q)+'\')">"'+q+'" — Nouveau chantier · Appuyez pour saisir la distance</div>';drop.innerHTML=html;drop.classList.add('visible');panel.classList.remove('visible');}
 function onSearchFocus(){var q=document.getElementById('ch-search').value.trim();if(q){onSearch();return;}var drop=document.getElementById('ch-dropdown');var html='';var list=chantiers.slice(0,30);for(var i=0;i<list.length;i++){var ar=list[i].k*2;html+='<div class="drop-item" onmousedown="event.preventDefault()" onclick="ajouterSelection(\''+echapper(list[i].n)+'\','+ar+')"><span>'+list[i].n+'</span><span class="drop-km">'+list[i].k+' km aller — '+ar+' km A/R</span></div>';}drop.innerHTML=html;drop.classList.add('visible');}
 function demanderDistance(nom){pendingNom=nom;document.getElementById('new-ch-name').textContent='Nouveau chantier : '+nom;document.getElementById('new-ch-km').value='';document.getElementById('new-ch-panel').classList.add('visible');document.getElementById('ch-dropdown').classList.remove('visible');document.getElementById('ch-search').value='';setTimeout(function(){document.getElementById('new-ch-km').focus();},100);}
-function confirmNewCh(){var k=parseInt(document.getElementById('new-ch-km').value)||0;if(k<=0){afficherAlerte('alert-ch','Entrez la distance aller en km.','err');return;}chantiers.push({n:pendingNom,k:k});chantiers.sort(function(a,b){return a.n.localeCompare(b.n,'fr');});sauver();document.getElementById('new-ch-panel').classList.remove('visible');var ar=k*2;ajouterSelection(pendingNom,ar);afficherAlerte('alert-ch','"'+pendingNom+'" ajouté à la base ('+k+' km aller — '+ar+' km A/R).','ok');pendingNom='';}
+function confirmNewCh(){var k=parseInt(document.getElementById('new-ch-km').value)||0;if(k<=0){afficherAlerte('alert-ch','Entrez la distance aller en km.','err');return;}chantiers.push({n:pendingNom,k:k,maj:Date.now()});chantiers.sort(function(a,b){return a.n.localeCompare(b.n,'fr');});sauver();document.getElementById('new-ch-panel').classList.remove('visible');var ar=k*2;ajouterSelection(pendingNom,ar);afficherAlerte('alert-ch','"'+pendingNom+'" ajouté à la base ('+k+' km aller — '+ar+' km A/R).','ok');pendingNom='';}
 function ajouterSelection(nom,ar){document.getElementById('ch-dropdown').classList.remove('visible');document.getElementById('ch-search').value='';selection.push({n:nom,km:ar});afficherSelection();calcTotal();}
 function supprimerSelection(idx){selection.splice(idx,1);afficherSelection();calcTotal();}
 function afficherSelection(){var bloc=document.getElementById('selected-list');var cont=document.getElementById('selected-items');if(!selection.length){bloc.style.display='none';return;}bloc.style.display='block';var html='';for(var i=0;i<selection.length;i++)html+='<div class="selected-item"><span class="selected-name">'+selection[i].n+'</span><input type="number" class="selected-km-input" value="'+selection[i].km+'" min="0" onchange="majKmSelection('+i+',this.value)" oninput="majKmSelection('+i+',this.value)"><span class="selected-km-label">km A/R</span><button class="selected-del" onclick="supprimerSelection('+i+')">✕</button></div>';cont.innerHTML=html;var tot=0;for(var i=0;i<selection.length;i++)tot+=parseInt(selection[i].km)||0;document.getElementById('km-total').textContent=tot+' km';}
 function majKmSelection(idx,val){selection[idx].km=parseInt(val)||0;var tot=0;for(var i=0;i<selection.length;i++)tot+=parseInt(selection[i].km)||0;document.getElementById('km-total').textContent=tot+' km';calcTotal();}
 function calcTotal(){var km=0;for(var i=0;i<selection.length;i++)km+=parseInt(selection[i].km)||0;var rp=parseFloat(document.getElementById('inp-rp').value)||0;var pg=parseFloat(document.getElementById('inp-pg').value)||0;var pk=parseFloat(document.getElementById('inp-pk').value)||0;var dv=parseFloat(document.getElementById('inp-dv').value)||0;var tot=+(km*config.tx+rp+pg+pk+dv).toFixed(2);document.getElementById('total-jour').textContent=euro(tot);}
-function enregistrer(){var date=document.getElementById('inp-date').value;if(!date){afficherAlerte('alert-saisie','Sélectionnez une date.','err');return;}var km=0;for(var i=0;i<selection.length;i++)km+=parseInt(selection[i].km)||0;var rp=parseFloat(document.getElementById('inp-rp').value)||0;var pg=parseFloat(document.getElementById('inp-pg').value)||0;var pk=parseFloat(document.getElementById('inp-pk').value)||0;var dv=parseFloat(document.getElementById('inp-dv').value)||0;var nt=document.getElementById('inp-nt').value.trim();var desc=selection.length?selection.map(function(s){return s.n;}).join(' - '):(nt||'Déplacement');var total=+(km*config.tx+rp+pg+pk+dv).toFixed(2);var entry={id:Date.now(),date:date,desc:desc,chantiers:selection.map(function(s){return{n:s.n,km:s.km};}),km:km,rp:rp,pg:pg,pk:pk,dv:dv,nt:nt,total:total};entrees.push(entry);entrees.sort(function(a,b){return a.date.localeCompare(b.date);});sauver();afficherAlerte('alert-saisie','Journée du '+dateF(date)+' enregistrée — '+euro(total),'ok');viderFormulaire();afficherAccueil();}
+function enregistrer(){var date=document.getElementById('inp-date').value;if(!date){afficherAlerte('alert-saisie','Sélectionnez une date.','err');return;}var km=0;for(var i=0;i<selection.length;i++)km+=parseInt(selection[i].km)||0;var rp=parseFloat(document.getElementById('inp-rp').value)||0;var pg=parseFloat(document.getElementById('inp-pg').value)||0;var pk=parseFloat(document.getElementById('inp-pk').value)||0;var dv=parseFloat(document.getElementById('inp-dv').value)||0;var nt=document.getElementById('inp-nt').value.trim();var desc=selection.length?selection.map(function(s){return s.n;}).join(' - '):(nt||'Déplacement');var total=+(km*config.tx+rp+pg+pk+dv).toFixed(2);var now=Date.now();var entry={id:now,date:date,desc:desc,chantiers:selection.map(function(s){return{n:s.n,km:s.km};}),km:km,rp:rp,pg:pg,pk:pk,dv:dv,nt:nt,total:total,maj:now};entrees.push(entry);entrees.sort(function(a,b){return a.date.localeCompare(b.date);});sauver();afficherAlerte('alert-saisie','Journée du '+dateF(date)+' enregistrée — '+euro(total),'ok');viderFormulaire();afficherAccueil();}
 function viderFormulaire(){selection=[];afficherSelection();document.getElementById('total-jour').textContent='0,00 €';document.getElementById('inp-date').value=new Date().toISOString().slice(0,10);var ids=['inp-rp','inp-pg','inp-pk','inp-dv','inp-nt','ch-search'];for(var i=0;i<ids.length;i++)document.getElementById(ids[i]).value='';document.getElementById('ch-dropdown').classList.remove('visible');document.getElementById('new-ch-panel').classList.remove('visible');}
 function effacer(){var rempli=selection.length>0;if(!rempli){var ids=['inp-rp','inp-pg','inp-pk','inp-dv','inp-nt'];for(var i=0;i<ids.length;i++){if(document.getElementById(ids[i]).value.trim()){rempli=true;break;}}}if(rempli&&!confirm('Effacer toute la saisie en cours ?'))return;viderFormulaire();}
 
 /* ===== LISTE JOURNÉES ===== */
 function afficherListe(){var e=entrees.filter(function(x){return cle(x.date)===moisListe;}).sort(function(a,b){return a.date.localeCompare(b.date);});var card=document.getElementById('liste-card');if(!e.length){card.innerHTML='<div class="empty-msg">Aucune journée pour ce mois.</div>';return;}var html='';for(var i=0;i<e.length;i++){var x=e[i];var ind=+(x.km*config.tx).toFixed(2);html+='<div class="jour-item"><div class="jour-main"><div class="jour-date">'+dateLong(x.date)+'</div><div class="jour-desc" title="'+x.desc+'">'+x.desc+'</div><div class="jour-badges">'+(x.km>0?'<span class="badge badge-km">'+x.km+' km — '+euro(ind)+'</span>':'')+(x.rp>0?'<span class="badge badge-rp">Repas '+euro(x.rp)+'</span>':'')+(x.pg>0?'<span class="badge badge-pg">Péage '+euro(x.pg)+'</span>':'')+(x.pk>0?'<span class="badge badge-pk">Parking '+euro(x.pk)+'</span>':'')+(x.dv>0?'<span class="badge badge-dv">Divers '+euro(x.dv)+'</span>':'')+'</div></div><div class="jour-right"><div class="jour-total">'+euro(x.total)+'</div><button class="jour-edit-btn" onclick="ouvrirModifJour('+x.id+')">Modifier</button></div></div>';}card.innerHTML=html;}
 function ouvrirModifJour(id){var x=null;for(var i=0;i<entrees.length;i++){if(entrees[i].id===id){x=entrees[i];break;}}if(!x)return;document.getElementById('modal-jour-id').value=id;document.getElementById('modal-jour-date').value=x.date;document.getElementById('modal-jour-desc').value=x.desc;document.getElementById('modal-jour-km').value=x.km;document.getElementById('modal-jour-rp').value=x.rp||'';document.getElementById('modal-jour-pg').value=x.pg||'';document.getElementById('modal-jour-pk').value=x.pk||'';document.getElementById('modal-jour-dv').value=x.dv||'';document.getElementById('modal-jour-nt').value=x.nt||'';document.getElementById('modal-jour').classList.add('open');}
-function saveJour(){var id=parseInt(document.getElementById('modal-jour-id').value);var idx=-1;for(var i=0;i<entrees.length;i++){if(entrees[i].id===id){idx=i;break;}}if(idx<0)return;var km=parseFloat(document.getElementById('modal-jour-km').value)||0;var rp=parseFloat(document.getElementById('modal-jour-rp').value)||0;var pg=parseFloat(document.getElementById('modal-jour-pg').value)||0;var pk=parseFloat(document.getElementById('modal-jour-pk').value)||0;var dv=parseFloat(document.getElementById('modal-jour-dv').value)||0;var total=+(km*config.tx+rp+pg+pk+dv).toFixed(2);entrees[idx].date=document.getElementById('modal-jour-date').value;entrees[idx].desc=document.getElementById('modal-jour-desc').value;entrees[idx].km=km;entrees[idx].rp=rp;entrees[idx].pg=pg;entrees[idx].pk=pk;entrees[idx].dv=dv;entrees[idx].nt=document.getElementById('modal-jour-nt').value;entrees[idx].total=total;entrees.sort(function(a,b){return a.date.localeCompare(b.date);});sauver();document.getElementById('modal-jour').classList.remove('open');afficherListe();afficherAccueil();}
-function deleteJour(){var id=parseInt(document.getElementById('modal-jour-id').value);if(!confirm('Supprimer cette journée ?'))return;entrees=entrees.filter(function(x){return x.id!==id;});sauver();document.getElementById('modal-jour').classList.remove('open');afficherListe();afficherAccueil();}
+function saveJour(){var id=parseInt(document.getElementById('modal-jour-id').value);var idx=-1;for(var i=0;i<entrees.length;i++){if(entrees[i].id===id){idx=i;break;}}if(idx<0)return;var km=parseFloat(document.getElementById('modal-jour-km').value)||0;var rp=parseFloat(document.getElementById('modal-jour-rp').value)||0;var pg=parseFloat(document.getElementById('modal-jour-pg').value)||0;var pk=parseFloat(document.getElementById('modal-jour-pk').value)||0;var dv=parseFloat(document.getElementById('modal-jour-dv').value)||0;var total=+(km*config.tx+rp+pg+pk+dv).toFixed(2);entrees[idx].date=document.getElementById('modal-jour-date').value;entrees[idx].desc=document.getElementById('modal-jour-desc').value;entrees[idx].km=km;entrees[idx].rp=rp;entrees[idx].pg=pg;entrees[idx].pk=pk;entrees[idx].dv=dv;entrees[idx].nt=document.getElementById('modal-jour-nt').value;entrees[idx].total=total;entrees[idx].maj=Date.now();entrees.sort(function(a,b){return a.date.localeCompare(b.date);});sauver();document.getElementById('modal-jour').classList.remove('open');afficherListe();afficherAccueil();}
+function deleteJour(){var id=parseInt(document.getElementById('modal-jour-id').value);if(!confirm('Supprimer cette journée ?'))return;entrees=entrees.filter(function(x){return x.id!==id;});if(supprimes.indexOf(id)<0)supprimes.push(id);sauver();document.getElementById('modal-jour').classList.remove('open');afficherListe();afficherAccueil();}
 
 /* ===== EXPORT ===== */
 function setOrient(o){paysage=(o==='landscape');document.getElementById('btn-portrait').classList.toggle('on',!paysage);document.getElementById('btn-landscape').classList.toggle('on',paysage);}
@@ -657,42 +737,51 @@ function exportImprimer(){var e=entrees.filter(function(x){return cle(x.date)===
 
 /* ===== CHANTIERS CONFIG ===== */
 function afficherListeChantiers(){var el=document.getElementById('cfg-ch-list');if(!chantiers.length){el.innerHTML='<div class="empty-msg">Aucun chantier.</div>';return;}var html='';for(var i=0;i<chantiers.length;i++)html+='<div class="ch-list-item"><span class="ch-list-name">'+chantiers[i].n+'</span><button class="ch-list-km" onclick="ouvrirModifChantier('+i+')">'+chantiers[i].k+' km aller</button></div>';el.innerHTML=html;}
-function ajouterChantier(){var nom=document.getElementById('new-ch-cfg-nom').value.trim();var k=parseInt(document.getElementById('new-ch-cfg-km').value)||0;if(!nom){afficherAlerte('alert-ch-cfg','Entrez un nom.','err');return;}if(k<=0){afficherAlerte('alert-ch-cfg','Entrez la distance aller.','err');return;}for(var i=0;i<chantiers.length;i++){if(normaliser(chantiers[i].n)===normaliser(nom)){afficherAlerte('alert-ch-cfg','Ce chantier existe déjà.','err');return;}}chantiers.push({n:nom,k:k});chantiers.sort(function(a,b){return a.n.localeCompare(b.n,'fr');});sauver();document.getElementById('new-ch-cfg-nom').value='';document.getElementById('new-ch-cfg-km').value='';document.getElementById('cfg-nb-ch').textContent=chantiers.length;afficherListeChantiers();afficherAlerte('alert-ch-cfg','"'+nom+'" ajouté ('+k+' km aller = '+(k*2)+' km A/R).','ok');}
+function ajouterChantier(){var nom=document.getElementById('new-ch-cfg-nom').value.trim();var k=parseInt(document.getElementById('new-ch-cfg-km').value)||0;if(!nom){afficherAlerte('alert-ch-cfg','Entrez un nom.','err');return;}if(k<=0){afficherAlerte('alert-ch-cfg','Entrez la distance aller.','err');return;}for(var i=0;i<chantiers.length;i++){if(normaliser(chantiers[i].n)===normaliser(nom)){afficherAlerte('alert-ch-cfg','Ce chantier existe déjà.','err');return;}}chantiers.push({n:nom,k:k,maj:Date.now()});chantiers.sort(function(a,b){return a.n.localeCompare(b.n,'fr');});sauver();document.getElementById('new-ch-cfg-nom').value='';document.getElementById('new-ch-cfg-km').value='';document.getElementById('cfg-nb-ch').textContent=chantiers.length;afficherListeChantiers();afficherAlerte('alert-ch-cfg','"'+nom+'" ajouté ('+k+' km aller = '+(k*2)+' km A/R).','ok');}
 function ouvrirModifChantier(idx){document.getElementById('modal-ch-idx').value=idx;document.getElementById('modal-ch-nom').value=chantiers[idx].n;document.getElementById('modal-ch-km').value=chantiers[idx].k;document.getElementById('modal-ch-ar').textContent=chantiers[idx].k*2+' km';document.getElementById('modal-ch-titre').textContent='Modifier : '+chantiers[idx].n;document.getElementById('modal-ch').classList.add('open');}
 function majAR(){var v=parseInt(document.getElementById('modal-ch-km').value)||0;document.getElementById('modal-ch-ar').textContent=v*2+' km';}
-function saveChantier(){var idx=parseInt(document.getElementById('modal-ch-idx').value);var k=parseInt(document.getElementById('modal-ch-km').value)||0;if(k<=0){afficherAlerte('alert-ch-cfg','Distance invalide.','err');return;}var nom=chantiers[idx].n;chantiers[idx].k=k;sauver();document.getElementById('modal-ch').classList.remove('open');document.getElementById('cfg-nb-ch').textContent=chantiers.length;afficherListeChantiers();afficherAlerte('alert-ch-cfg',nom+' : '+k+' km aller = '+k*2+' km A/R','ok');}
-function deleteChantier(){var idx=parseInt(document.getElementById('modal-ch-idx').value);var nom=chantiers[idx].n;if(!confirm('Supprimer "'+nom+'" de la base ?'))return;chantiers.splice(idx,1);sauver();document.getElementById('modal-ch').classList.remove('open');document.getElementById('cfg-nb-ch').textContent=chantiers.length;afficherListeChantiers();}
-function exportJSON(){var data={entrees:entrees,chantiers:chantiers,config:config,date:new Date().toISOString()};var a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(data,null,2));a.download='Frais_HUBERT_'+new Date().toISOString().slice(0,10)+'.json';a.click();}
+function saveChantier(){var idx=parseInt(document.getElementById('modal-ch-idx').value);var k=parseInt(document.getElementById('modal-ch-km').value)||0;if(k<=0){afficherAlerte('alert-ch-cfg','Distance invalide.','err');return;}var nom=chantiers[idx].n;chantiers[idx].k=k;chantiers[idx].maj=Date.now();sauver();document.getElementById('modal-ch').classList.remove('open');document.getElementById('cfg-nb-ch').textContent=chantiers.length;afficherListeChantiers();afficherAlerte('alert-ch-cfg',nom+' : '+k+' km aller = '+k*2+' km A/R','ok');}
+function deleteChantier(){var idx=parseInt(document.getElementById('modal-ch-idx').value);var nom=chantiers[idx].n;if(!confirm('Supprimer "'+nom+'" de la base ?'))return;chantiers.splice(idx,1);chSupprimes.push({n:normaliser(nom),t:Date.now()});sauver();document.getElementById('modal-ch').classList.remove('open');document.getElementById('cfg-nb-ch').textContent=chantiers.length;afficherListeChantiers();}
+function exportJSON(){var data={entrees:entrees,chantiers:chantiers,config:config,supprimes:supprimes,chSupprimes:chSupprimes,date:new Date().toISOString()};var a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(data,null,2));a.download='Frais_HUBERT_'+new Date().toISOString().slice(0,10)+'.json';a.click();}
 
 
 /* ===== TOKEN ===== */
 function checkToken(){
   var t=localStorage.getItem('hb_gh_token');
-  if(t&&t.startsWith('ghp_')){GH_TOKEN=t;document.getElementById('tok-overlay').classList.add('hidden');}
-  else{document.getElementById('tok-overlay').classList.remove('hidden');}
+  if(tokenValide(t)){GH_TOKEN=t;document.getElementById('tok-overlay').classList.add('hidden');}
+  else{GH_TOKEN='';document.getElementById('tok-overlay').classList.remove('hidden');}
+}
+function montrerOverlayToken(msg){
+  var btn=document.querySelector('.tok-btn');
+  btn.textContent='Accéder à l\'application';btn.disabled=false;
+  document.getElementById('tok-overlay').classList.remove('hidden');
+  if(msg)afficherErreurToken(msg);
 }
 function validerToken(){
   var t=document.getElementById('tok-input').value.trim();
-  if(!t||!t.startsWith('ghp_')){afficherErreurToken('Token invalide. Il doit commencer par ghp_');return;}
+  if(!tokenValide(t)){afficherErreurToken('Token invalide. Il doit commencer par ghp_ ou github_pat_');return;}
   var btn=document.querySelector('.tok-btn');
   btn.textContent='Vérification...';
   btn.disabled=true;
-  fetch('https://api.github.com/repos/paulhubert-byte/Note-Frais-PH',{
-    headers:{'Authorization':'token '+t,'Accept':'application/vnd.github.v3+json'}
+  fetch('https://api.github.com/repos/'+GH_REPO,{
+    headers:{'Authorization':'Bearer '+t,'Accept':'application/vnd.github.v3+json'}
   }).then(function(r){
-    if(r.ok||r.status===404){
+    if(r.ok){
       localStorage.setItem('hb_gh_token',t);
       GH_TOKEN=t;
+      document.getElementById('tok-input').value='';
+      var el=document.getElementById('tok-err');if(el)el.remove();
       document.getElementById('tok-overlay').classList.add('hidden');
+      btn.textContent='Accéder à l\'application';btn.disabled=false;
       charger();
     } else {
       afficherErreurToken('Token refusé par GitHub (code '+r.status+'). Vérifiez et réessayez.');
-      btn.textContent='Acceder a l\'application';
+      btn.textContent='Accéder à l\'application';
       btn.disabled=false;
     }
   }).catch(function(){
     afficherErreurToken('Impossible de vérifier le token. Vérifiez votre connexion.');
-    btn.textContent='Acceder a l\'application';
+    btn.textContent='Accéder à l\'application';
     btn.disabled=false;
   });
 }
@@ -708,19 +797,23 @@ function afficherErreurToken(msg){
 }
 function changerToken(){
   var t=document.getElementById('cfg-token-display').value.trim();
-  if(!t||!t.startsWith('ghp_')){afficherAlerte('alert-token','Token invalide. Il doit commencer par ghp_','err');return;}
+  if(!tokenValide(t)){afficherAlerte('alert-token','Token invalide. Il doit commencer par ghp_ ou github_pat_','err');return;}
   localStorage.setItem('hb_gh_token',t);
   GH_TOKEN=t;
   document.getElementById('cfg-token-display').value='';
   afficherAlerte('alert-token','Token mis à jour. Synchronisation en cours...','ok');
-  charger();
+  synchroniser();
 }
 
 /* ===== INIT ===== */
+document.getElementById('app-version').textContent=APP_VERSION;
 document.getElementById('ch-search').addEventListener('blur',function(){setTimeout(function(){document.getElementById('ch-dropdown').classList.remove('visible');},250);});
 document.getElementById('inp-date').value=new Date().toISOString().slice(0,10);
 checkToken();
 if(GH_TOKEN)charger();
+// Resynchroniser quand l'appli revient au premier plan ou que le réseau revient
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&GH_TOKEN)synchroniser();});
+window.addEventListener('online',function(){if(GH_TOKEN)synchroniser();});
 </script>
 </body>
 </html>
