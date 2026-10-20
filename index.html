@@ -472,7 +472,7 @@ table.export-tbl{width:100%;border-collapse:collapse;font-size:11px}
 <!-- JAVASCRIPT -->
 <script>
 /* ===== CONFIG GITHUB ===== */
-var APP_VERSION = 'v2 — synchro sécurisée';
+var APP_VERSION = 'v2.1 — synchro sécurisée';
 var GH_TOKEN = localStorage.getItem('hb_gh_token') || '';
 var GH_REPO   = 'paulhubert-byte/Note-Frais-PH';
 var GH_FILE   = 'data.json';
@@ -510,7 +510,7 @@ function enTetes(){return {'Authorization':'Bearer '+GH_TOKEN,'Accept':'applicat
 function b64Encode(str){return btoa(unescape(encodeURIComponent(str)));}
 function b64Decode(b64){var bin=atob(b64.replace(/\s/g,''));try{return decodeURIComponent(escape(bin));}catch(e){return bin;}}
 function reparerTexte(s){
-  for(var i=0;i<10;i++){
+  for(var i=0;i<60;i++){
     if(!/[\u0080-\u00ff]/.test(s))break;
     try{var d=decodeURIComponent(escape(s));if(d===s)break;s=d;}catch(e){break;}
   }
@@ -577,7 +577,17 @@ async function ghLire(){
   if(r.status===404)return {data:null,sha:null};
   if(!r.ok){var e=new Error('HTTP '+r.status);e.status=r.status;throw e;}
   var j=await r.json();
-  return {data:reparerDonnees(JSON.parse(b64Decode(j.content))),sha:j.sha};
+  var texte;
+  if(j.content&&j.encoding==='base64'){
+    texte=b64Decode(j.content);
+  }else{
+    // Fichier de plus de 1 Mo : GitHub ne renvoie pas le contenu, on le demande en brut
+    var h=enTetes();h['Accept']='application/vnd.github.raw';
+    var r2=await fetch(GH_API+'?ref='+GH_BRANCH+'&t='+Date.now(),{headers:h,cache:'no-store'});
+    if(!r2.ok){var e2=new Error('HTTP '+r2.status);e2.status=r2.status;throw e2;}
+    texte=await r2.text();
+  }
+  return {data:reparerDonnees(JSON.parse(texte)),sha:j.sha};
 }
 
 async function ghEcrire(d,sha){
