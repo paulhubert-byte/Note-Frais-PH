@@ -2835,6 +2835,32 @@
       "dv": 0,
       "nt": "",
       "total": 72.38
+    },
+    {
+      "id": 1792501610591,
+      "date": "2026-10-20",
+      "desc": "39 rue cauchoise - C21 11 rue du cercle - Centre Beethoven",
+      "chantiers": [
+        {
+          "n": "39 rue cauchoise",
+          "km": 10
+        },
+        {
+          "n": "C21 11 rue du cercle",
+          "km": 10
+        },
+        {
+          "n": "Centre Beethoven",
+          "km": 10
+        }
+      ],
+      "km": 30,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 14.1
     }
   ],
   "chantiers": [
@@ -3718,5 +3744,5 @@
     "ps": 8,
     "tx": 0.47
   },
-  "ts": 1792501571098
+  "ts": 1792501612095
 }
