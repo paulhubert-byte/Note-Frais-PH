@@ -2896,6 +2896,29 @@
       "nt": "",
       "total": 23.5,
       "maj": 1792670824181
+    },
+    {
+      "id": 1792670969300,
+      "date": "2026-10-22",
+      "desc": "C21 11 rue du cercle - Centre Beethoven",
+      "chantiers": [
+        {
+          "n": "C21 11 rue du cercle",
+          "km": 10
+        },
+        {
+          "n": "Centre Beethoven",
+          "km": 10
+        }
+      ],
+      "km": 20,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 9.4,
+      "maj": 1792670969300
     }
   ],
   "chantiers": [
@@ -3792,5 +3815,5 @@
   "supprimes": [],
   "chSupprimes": [],
   "version": 2,
-  "ts": 1792670826247
+  "ts": 1792670971576
 }
