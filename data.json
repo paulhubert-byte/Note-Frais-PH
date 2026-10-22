@@ -2861,6 +2861,41 @@
       "dv": 0,
       "nt": "",
       "total": 14.1
+    },
+    {
+      "id": 1792670824181,
+      "date": "2026-10-21",
+      "desc": "39 rue cauchoise - C21 11 rue du cercle - Agence C21 - 14 rue Etoupee - 6 rue docteur Blanche",
+      "chantiers": [
+        {
+          "n": "39 rue cauchoise",
+          "km": 10
+        },
+        {
+          "n": "C21 11 rue du cercle",
+          "km": 10
+        },
+        {
+          "n": "Agence C21",
+          "km": 10
+        },
+        {
+          "n": "14 rue Etoupee",
+          "km": 10
+        },
+        {
+          "n": "6 rue docteur Blanche",
+          "km": 10
+        }
+      ],
+      "km": 50,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 23.5,
+      "maj": 1792670824181
     }
   ],
   "chantiers": [
@@ -3757,5 +3792,5 @@
   "supprimes": [],
   "chSupprimes": [],
   "version": 2,
-  "ts": 1792670807966
+  "ts": 1792670826247
 }
