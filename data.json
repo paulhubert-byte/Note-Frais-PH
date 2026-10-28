@@ -2896,6 +2896,33 @@
       "nt": "",
       "total": 23.5,
       "maj": 1792670824181
+    },
+    {
+      "id": 1793179516987,
+      "date": "2026-10-22",
+      "desc": "C21 11 rue du cercle - 39 rue cauchoise - Le Havre en Scene",
+      "chantiers": [
+        {
+          "n": "C21 11 rue du cercle",
+          "km": 10
+        },
+        {
+          "n": "39 rue cauchoise",
+          "km": 10
+        },
+        {
+          "n": "Le Havre en Scene",
+          "km": 184
+        }
+      ],
+      "km": 204,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 95.88,
+      "maj": 1793179516987
     }
   ],
   "chantiers": [
@@ -3794,5 +3821,5 @@
   ],
   "chSupprimes": [],
   "version": 2,
-  "ts": 1793179476697
+  "ts": 1793179519350
 }
