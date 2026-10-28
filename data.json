@@ -2923,6 +2923,25 @@
       "nt": "",
       "total": 95.88,
       "maj": 1793179516987
+    },
+    {
+      "id": 1793179564937,
+      "date": "2026-10-28",
+      "desc": "Centre Beethoven",
+      "chantiers": [
+        {
+          "n": "Centre Beethoven",
+          "km": 10
+        }
+      ],
+      "km": 10,
+      "rp": 0,
+      "pg": 0,
+      "pk": 0,
+      "dv": 0,
+      "nt": "",
+      "total": 4.7,
+      "maj": 1793179564937
     }
   ],
   "chantiers": [
@@ -3821,5 +3840,5 @@
   ],
   "chSupprimes": [],
   "version": 2,
-  "ts": 1793179519350
+  "ts": 1793179567150
 }
